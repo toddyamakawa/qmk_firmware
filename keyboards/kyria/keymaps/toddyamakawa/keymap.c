@@ -22,27 +22,50 @@ enum layers {
     _ADJUST
 };
 
+#define THUM_L1 MT(MOD_LCTL, KC_ESC)
+#define THUM_L2 MT(MOD_LALT, KC_BSPC)
+#define THUM_L3 MT(MOD_LGUI, KC_ENT)
+#define THUM_L4 KC_DEL
+#define THUM_L5 KC_MUTE
+#define THUM_L6 LT(_RAISE, KC_ESC)
+#define THUM_L7 LT(_LOWER, KC_ESC)
+#define THUM_R1 LT(_LOWER, KC_BSPC)
+#define THUM_R2 MT(MOD_LSFT, KC_SPC)
+#define THUM_R3 KC_ENT
+#define THUM_R4 KC_BSPC
+#define THUM_R5 KC_SLCK
+#define THUM_R6 LT(_LOWER, KC_ESC)
+#define THUM_R7 LT(_RAISE, KC_ESC)
+
+#define PINK_L1 KC_TAB
+#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
+#define PINK_L3 KC_LSFT
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/*
- * Base Layer: QWERTY
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |RAIS/ESC|   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  | \   |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |Ctrl/BS |   A  |   S  |  D   |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |LShift|LShift|  |LShift|LShift|   N  |   M  | ,  < | . >  | /  ? |  - _   |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        | GUI  | Del  | Enter| Space| Esc  |  | Enter| Space| Tab  | Bksp | AltGr|
- *                        |      |      | Alt  | Lower| Raise|  | Lower| Raise|      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
-    [_QWERTY] = LAYOUT(
-      LT(_RAISE, KC_ESC),       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_PIPE,
-      MT(MOD_LCTL, KC_BSPC),   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LSFT,                 KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_LSFT,   KC_LSFT, KC_LSFT, KC_LSFT, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_MINS,
-              KC_LGUI, KC_DEL, MT(MOD_LALT, KC_ENT), LT(_LOWER, KC_SPC), LT(_RAISE, KC_ESC), LT(_LOWER, KC_ENT), LT(_RAISE, KC_SPC), KC_TAB,  KC_BSPC, KC_RALT
-    ),
+
+// =============================================================================
+// BASE LAYER: QWERTY
+// =============================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │   Q   │   W   │   E   │   R   │   T   │                                  │   Y   │   U   │   I   │   O   │   P   │   |   │
+// │  TAB  │       │       │       │       │       │                                  │       │       │       │       │       │   \   │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │   "   │
+// │  NAV  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
+// │  NUM  │       │       │       │       │       │  ESC  │  ESC  │  │  ESC  │  ESC  │       │       │   ,   │   .   │   /   │   -   │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │  VOL  │       │  GUI  │  ALT  │  CTRL │  │ LOWER │ SHIFT │       │       │ SCROLL│
+//                         │ MUTE  │  DEL  │ ENTER │ BKSPC │  ESC  │  │ BKSPC │ SPACE │ ENTER │ BKSPC │KC_SLCK│
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
+[_QWERTY] = LAYOUT(
+    PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O    KC_P,KC_PIPE,
+    PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,KC_QUOT,
+    PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
+                            THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
+),
+
 /*
  * Lower Layer: Symbols
  *
@@ -210,9 +233,9 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     else if (index == 1) {
         // Page up/Page down
         if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
             tap_code(KC_PGUP);
+        } else {
+            tap_code(KC_PGDN);
         }
     }
 }
