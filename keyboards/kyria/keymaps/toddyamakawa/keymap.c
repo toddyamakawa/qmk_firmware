@@ -24,19 +24,19 @@ enum layers {
 };
 
 #define THUM_L1 MT(MOD_LCTL, KC_ESC)
-#define THUM_L2 MT(MOD_LALT, KC_BSPC)
-#define THUM_L3 MT(MOD_LGUI, KC_ENT)
+#define THUM_L2 MT(MOD_LALT, KC_ENT)
+#define THUM_L3 KC_LGUI
 #define THUM_L4 KC_DEL
 #define THUM_L5 KC_MUTE
 #define THUM_L6 LT(_RAISE, KC_ESC)
 #define THUM_L7 LT(_LOWER, KC_ESC)
-#define THUM_R1 LT(_LOWER, KC_BSPC)
+#define THUM_R1 LT(_RAISE, KC_BSPC)
 #define THUM_R2 MT(MOD_LSFT, KC_SPC)
 #define THUM_R3 KC_ENT
 #define THUM_R4 KC_BSPC
 #define THUM_R5 KC_SLCK
-#define THUM_R6 LT(_LOWER, KC_ESC)
-#define THUM_R7 LT(_RAISE, KC_ESC)
+#define THUM_R6 LT(_LOWER, KC_END)
+#define THUM_R7 LT(_RAISE, KC_HOME)
 
 #define PINK_L1 KC_TAB
 #define PINK_L2 MT(MOD_LCTL, KC_BSPC)
@@ -55,13 +55,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │  NAV  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
-// │  NUM  │       │       │       │       │       │  ESC  │  ESC  │  │  ESC  │  ESC  │       │       │   ,   │   .   │   /   │   -   │
+// │  NUM  │       │       │       │       │       │  HOME │  END  │  │  ESC  │  ESC  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │  VOL  │       │  GUI  │  ALT  │  CTRL │  │ LOWER │ SHIFT │       │       │ SCROLL│
-//                         │ MUTE  │  DEL  │ ENTER │ BKSPC │  ESC  │  │ BKSPC │ SPACE │ ENTER │ BKSPC │KC_SLCK│
+//                         │  VOL  │       │  GUI  │  ALT  │  CTRL │  │ RAISE │ SHIFT │       │       │ SCROLL│
+//                         │  MUTE │  DEL  │       │ ENTER │  ESC  │  │ BKSPC │ SPACE │ ENTER │ BKSPC │KC_SLCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-[_QWERTY] = LAYOUT(
-    PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O    KC_P,KC_PIPE,
+    [_QWERTY] = LAYOUT(
+    PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,KC_PIPE,
     PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,KC_QUOT,
     PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
@@ -154,26 +154,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
-// /*
-//  * Layer template
-//  *
-//  * ,-------------------------------------------.                              ,-------------------------------------------.
-//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
-//  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
-//  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
-//  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
-//  *                        |      |      |      |      |      |  |      |      |      |      |      |
-//  *                        |      |      |      |      |      |  |      |      |      |      |      |
-//  *                        `----------------------------------'  `----------------------------------'
-//  */
-//     [_LAYERINDEX] = LAYOUT(
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-//     ),
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
