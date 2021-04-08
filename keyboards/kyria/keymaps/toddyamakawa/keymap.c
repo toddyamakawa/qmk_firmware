@@ -17,11 +17,17 @@
 
 enum layers {
     _QWERTY = 0,
-    SYMBOLS, // TODO: Delete this later
     _LOWER,
     _RAISE,
     _ADJUST
 };
+
+#define _______________QWERTY_L1_______________ KC_Q, KC_W, KC_E   , KC_R  , KC_T
+#define _______________QWERTY_L2_______________ KC_A, KC_S, KC_D   , KC_F  , KC_G
+#define _______________QWERTY_L3_______________ KC_Z, KC_X, KC_C   , KC_V  , KC_B
+#define _______________QWERTY_R1_______________ KC_Y, KC_U, KC_I   , KC_O  , KC_P
+#define _______________QWERTY_R2_______________ KC_H, KC_J, KC_K   , KC_L  , KC_SCLN
+#define _______________QWERTY_R3_______________ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH
 
 #define THUM_L1 MT(MOD_LCTL, KC_ESC)
 #define THUM_L2 MT(MOD_LALT, KC_ENT)
@@ -42,6 +48,7 @@ enum layers {
 #define PINK_L2 MT(MOD_LCTL, KC_BSPC)
 #define PINK_L3 KC_LSFT
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ====================================================================================================================================
@@ -61,12 +68,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │  MUTE │       │  TAB  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
+    // TODO: Figure out why this doesn't work
+//  PINK_L1,_______________QWERTY_L1_______________,                                   _______________QWERTY_R1_______________,KC_PIPE,
+//  PINK_L2,_______________QWERTY_L2_______________,                                   _______________QWERTY_R2_______________,KC_QUOT,
+//  PINK_L3,_______________QWERTY_L3_______________,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,_______________QWERTY_R3_______________,KC_MINS,
     PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,KC_PIPE,
     PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,KC_QUOT,
     PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
-
 
 // ====================================================================================================================================
 // LOWER LAYER: NUMBER ROW
@@ -75,8 +85,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
 // │       │   <   │   {   │   [   │   (   │       │                                  │       │   )   │   ]   │   }   │   >   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   &   │   %   │   #   │   !   │   (   │                                  │   ^   │   )   │   @   │   $   │   ^   │       │
-// │       │   7   │   5   │   3   │   1   │   9   │                                  │   6   │   0   │   2   │   4   │   6   │       │
+// │       │   $   │   #   │   @   │   !   │   %   │                                  │   ^   │   )   │   (   │   *   │   &   │       │
+// │       │   4   │   3   │   2   │   1   │   5   │                                  │   6   │   0   │   9   │   8   │   7   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
 // │       │   ~   │   `   │   \   │   |   │       │       │       │  │       │       │       │   -   │   _   │   =   │   +   │       │
@@ -86,32 +96,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_LOWER] = LAYOUT(
     _______,  KC_LT,KC_LCBR,KC_LBRC,KC_LPRN,_______,                                   _______,KC_RPRN,KC_RBRC,KC_RCBR,  KC_GT,_______,
-    _______,   KC_7,   KC_5,   KC_3,   KC_1,   KC_9,                                      KC_8,   KC_0,   KC_2,   KC_4,   KC_6,_______,
+    _______,   KC_4,   KC_3,   KC_2,   KC_1,   KC_5,                                      KC_6,   KC_0,   KC_9,   KC_8,   KC_7,_______,
     _______,KC_TILD, KC_GRV,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
-
-
-/*
- * Lower Layer: Symbols
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |  !   |  @   |  {   |  }   |  |   |                              |      |      |      |      |      |  | \   |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  #   |  $   |  (   |  )   |  `   |                              |   +  |  -   |  /   |  *   |  %   |  ' "   |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |  %   |  ^   |  [   |  ]   |  ~   |      |      |  |      |      |   &  |  =   |  ,   |  .   |  / ? | - _    |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |  ;   |  =   |  |  =   |  ;   |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
-    [_LOWER] = LAYOUT(
-      _______, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE,                                     _______, _______, _______, _______, _______, KC_BSLS,
-      _______, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,                                      KC_PLUS, KC_MINS, KC_SLSH, KC_ASTR, KC_PERC, KC_QUOT,
-      _______, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, _______, _______, _______, _______, KC_AMPR, KC_EQL,  KC_COMM, KC_DOT,  KC_SLSH, KC_MINS,
-                                 _______, _______, _______, KC_SCLN, KC_EQL,  KC_EQL,  KC_SCLN, _______, _______, _______
-    ),
- */
 
 /*
  * Raise Layer: Number keys, media, navigation
