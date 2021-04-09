@@ -22,6 +22,7 @@ enum layers {
     _ADJUST
 };
 
+// Idea from: https://github.com/winterNebs/qmk_firmware/blob/master/users/winternebs/winternebs.h
 #define _______________QWERTY_L1_______________ KC_Q, KC_W, KC_E   , KC_R  , KC_T
 #define _______________QWERTY_L2_______________ KC_A, KC_S, KC_D   , KC_F  , KC_G
 #define _______________QWERTY_L3_______________ KC_Z, KC_X, KC_C   , KC_V  , KC_B
@@ -38,7 +39,7 @@ enum layers {
 #define THUM_L7 LT(_LOWER, KC_PGUP)
 #define THUM_R1 LT(_RAISE, KC_BSPC)
 #define THUM_R2 MT(MOD_LSFT, KC_SPC)
-#define THUM_R3 KC_DEL
+#define THUM_R3 LT(_LOWER, KC_DEL)
 #define THUM_R4 KC_TAB
 #define THUM_R5 KC_SLCK
 #define THUM_R6 LT(_RAISE, KC_HOME)
@@ -64,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
 // │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ RAISE │ SHIFT │       │       │ SCROLL│
+//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ RAISE │ SHIFT │ LOWER │       │ SCROLL│
 //                         │  MUTE │       │  TAB  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
@@ -81,6 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ====================================================================================================================================
 // LOWER LAYER: NUMBER ROW
 // ====================================================================================================================================
+// Number row layout from: https://youtu.be/yiwUjLaebuw?t=185
+//
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
 // │       │   <   │   {   │   [   │   (   │       │                                  │       │   )   │   ]   │   }   │   >   │       │
