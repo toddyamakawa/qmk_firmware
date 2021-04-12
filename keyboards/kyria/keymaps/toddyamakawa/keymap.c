@@ -13,14 +13,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+
+// vim: ts=4 et
+
+
 #include QMK_KEYBOARD_H
 
-enum layers {
-    _QWERTY = 0,
-    _LOWER,
-    _RAISE,
-    _ADJUST
-};
+#define HOLD_SHIFT()      register_mods(MOD_BIT(KC_LSFT))
+#define RELEASE_SHIFT() unregister_mods(MOD_BIT(KC_LSFT))
+#define HOLD_ALT()        register_mods(MOD_BIT(KC_LALT))
+#define RELEASE_ALT()   unregister_mods(MOD_BIT(KC_LALT))
+#define HOLD_CTRL()       register_mods(MOD_BIT(KC_LCTRL))
+#define RELEASE_CTRL()  unregister_mods(MOD_BIT(KC_LCTRL))
+#define HOLD_GUI()        register_mods(MOD_BIT(KC_LGUI))
+#define RELEASE_GUI()   unregister_mods(MOD_BIT(KC_LGUI))
+
+#define CTRL_TAP(kc) { \
+    register_mods(MOD_BIT(KC_LCTRL)); \
+    tap_code(kc); \
+    unregister_mods(MOD_BIT(KC_LCTRL)); \
+}
+
 
 // Idea from: https://github.com/winterNebs/qmk_firmware/blob/master/users/winternebs/winternebs.h
 #define _______________QWERTY_L1_______________ KC_Q, KC_W, KC_E   , KC_R  , KC_T
@@ -30,7 +44,7 @@ enum layers {
 #define _______________QWERTY_R2_______________ KC_H, KC_J, KC_K   , KC_L  , KC_SCLN
 #define _______________QWERTY_R3_______________ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH
 
-#define THUM_L1 MT(MOD_LCTL, KC_ESC)
+#define THUM_L1 MT(MOD_LCTL, MY_ESC)
 #define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_LOWER, KC_TAB)
 #define THUM_L4 KC_LGUI
@@ -46,8 +60,53 @@ enum layers {
 #define THUM_R7 LT(_LOWER, KC_END)
 
 #define PINK_L1 KC_TAB
-#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
+//#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
+#define PINK_L2 TO(_RAISE)
 #define PINK_L3 KC_LSFT
+
+bool vim_key(uint16_t keycode, keyrecord_t *record);
+
+
+enum layers {
+    _QWERTY = 0,
+    _LOWER,
+    _RAISE,
+    _ADJUST
+};
+
+
+// =============================================================================
+// VIM
+// =============================================================================
+enum custom_keycodes {
+    MY_ESC = SAFE_RANGE,
+    VIM_A,
+    VIM_B,
+    VIM_C,
+    VIM_D,
+    VIM_E,
+    VIM_F,
+    VIM_G,
+    VIM_H,
+    VIM_I,
+    VIM_J,
+    VIM_K,
+    VIM_L,
+    VIM_M,
+    VIM_N,
+    VIM_O,
+    VIM_P,
+    VIM_Q,
+    VIM_R,
+    VIM_S,
+    VIM_T,
+    VIM_U,
+    VIM_V,
+    VIM_W,
+    VIM_X,
+    VIM_Y,
+    VIM_Z
+};
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -86,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │   <   │   {   │   [   │   (   │       │                                  │       │   )   │   ]   │   }   │   >   │       │
+// │       │   <   │   [   │   {   │   (   │       │                                  │       │   )   │   }   │   ]   │   >   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   $   │   #   │   @   │   !   │   %   │                                  │   ^   │   )   │   (   │   *   │   &   │       │
 // │       │   4   │   3   │   2   │   1   │   5   │                                  │   6   │   0   │   9   │   8   │   7   │       │
@@ -98,11 +157,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_LOWER] = LAYOUT(
-    _______,  KC_LT,KC_LCBR,KC_LBRC,KC_LPRN,_______,                                   _______,KC_RPRN,KC_RBRC,KC_RCBR,  KC_GT,_______,
+    _______,  KC_LT,KC_LBRC,KC_LCBR,KC_LPRN,_______,                                   _______,KC_RPRN,KC_RCBR,KC_RBRC,  KC_GT,_______,
     _______,   KC_4,   KC_3,   KC_2,   KC_1,   KC_5,                                      KC_6,   KC_0,   KC_9,   KC_8,   KC_7,_______,
     _______,KC_TILD, KC_GRV,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
+
+
+// =============================================================================
+// RAISE LAYER: NAVIGATION
+// =============================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │       │       │       │       │       │                                  │       │       │  BASE │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │       │       │       │       │       │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// │       │       │       │       │       │  C-←  │       │       │  │       │       │       │       │       │       │  C-F  │       │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
+    [_RAISE] = LAYOUT(
+    _______,  VIM_Q,  VIM_W,  VIM_E,  VIM_R,  VIM_T,                                     VIM_Y,  VIM_U,  VIM_I,  VIM_O,  VIM_P,_______,
+    _______,  VIM_A,  VIM_S,  VIM_D,  VIM_F,  VIM_G,                                     VIM_H,  VIM_J,  VIM_K,  VIM_L,_______,_______,
+    _______,  VIM_Z,  VIM_X,  VIM_C,  VIM_V,  VIM_B,_______,_______,   _______,_______,  VIM_N,  VIM_M,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    ),
+
 
 /*
  * Raise Layer: Number keys, media, navigation
@@ -117,13 +201,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
- */
     [_RAISE] = LAYOUT(
-      _______, KC_1, 	  KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-      _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
+      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+      _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                       VIM_H, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
       _______, _______, _______, _______, KC_MUTE, KC_VOLD, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
+ */
 
 /*
  * Adjust Layer: Function keys, RGB
@@ -153,7 +237,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-	return OLED_ROTATION_180;
+    return OLED_ROTATION_180;
 }
 
 static void render_kyria_logo(void) {
@@ -218,6 +302,70 @@ void oled_task_user(void) {
     }
 }
 #endif
+
+
+// =============================================================================
+// VIM
+// =============================================================================
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case MY_ESC:
+            if(record->event.pressed) {
+                layer_on(0);
+                tap_code(KC_ESC);
+            }
+            return true;
+    }
+
+    return vim_key(keycode, record);
+}
+
+bool vim_key(uint16_t keycode, keyrecord_t *record) {
+    // Nothing fancy in here
+    if(!record->event.pressed) return true;
+
+    switch(keycode) {
+        // Enter 'normal' mode
+        case VIM_I:
+            layer_on(_QWERTY);
+            break;
+        case VIM_O:
+            tap_code(KC_END);
+            tap_code(KC_ENTER);
+            layer_on(_QWERTY);
+            break;
+
+        // Navigation
+        case VIM_H:
+            tap_code(KC_LEFT);
+            break;
+        case VIM_J:
+            tap_code(KC_DOWN);
+            break;
+        case VIM_K:
+            tap_code(KC_UP);
+            break;
+        case VIM_L:
+            tap_code(KC_RIGHT);
+            break;
+        case VIM_W:
+            CTRL_TAP(KC_RIGHT);
+            break;
+        case VIM_E:
+            CTRL_TAP(KC_RIGHT);
+            break;
+        case VIM_B:
+            CTRL_TAP(KC_LEFT);
+            break;
+
+        // Cut
+        case VIM_X:
+            tap_code(KC_DEL);
+            break;
+    }
+    return true;
+}
+
 
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
