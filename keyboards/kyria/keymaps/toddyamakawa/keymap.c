@@ -44,7 +44,7 @@
 #define _______________QWERTY_R2_______________ KC_H, KC_J, KC_K   , KC_L  , KC_SCLN
 #define _______________QWERTY_R3_______________ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH
 
-#define THUM_L1 MT(MOD_LCTL, MY_ESC)
+#define THUM_L1 MT(MOD_LCTL, KC_ESC)
 #define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_LOWER, KC_TAB)
 #define THUM_L4 KC_LGUI
@@ -61,8 +61,14 @@
 
 #define PINK_L1 KC_TAB
 //#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
-#define PINK_L2 TO(_RAISE)
+//#define PINK_L2 TO(_RAISE)
+#define PINK_L2 VIM_ESC
 #define PINK_L3 KC_LSFT
+
+enum combos {
+    CO_QWER
+};
+
 
 // =============================================================================
 // VIM
@@ -74,6 +80,7 @@
 bool vim_key(uint16_t keycode, keyrecord_t *record);
 
 typedef struct {
+    bool enabled;
     bool visual;
     bool set_go;
     bool go;
@@ -87,36 +94,20 @@ enum layers {
 };
 
 enum custom_keycodes {
-    MY_ESC = SAFE_RANGE,
-    VIM_A,
-    VIM_B,
-    VIM_C,
-    VIM_D,
-    VIM_E,
-    VIM_F,
-    VIM_G,
-    VIM_H,
-    VIM_I,
-    VIM_J,
-    VIM_K,
-    VIM_L,
-    VIM_M,
-    VIM_N,
-    VIM_O,
-    VIM_P,
-    VIM_Q,
-    VIM_R,
-    VIM_S,
-    VIM_T,
-    VIM_U,
-    VIM_V,
-    VIM_W,
-    VIM_X,
-    VIM_Y,
-    VIM_Z
+    VIM_ESC = SAFE_RANGE
 };
 
-static vim_state_t vim = {false, false, false};
+static vim_state_t vim = {false, false, false, false};
+
+
+// =============================================================================
+// COMBOS
+// =============================================================================
+const uint16_t PROGMEM qwer_combo[] = {KC_Q, KC_W, KC_E, KC_R, COMBO_END};
+combo_t key_combos[COMBO_COUNT] = {
+    [CO_QWER] = COMBO(qwer_combo, KC_TAB)
+
+};
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -129,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │  TAB  │       │       │       │       │       │                                  │       │       │       │       │       │   \   │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │   "   │
-// │  NAV  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
+// │  VIM  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
 // │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
@@ -147,6 +138,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
+
+
+// ====================================================================================================================================
+// VIM MODE
+// ====================================================================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │  ESC  │  C-→  │  C-→  │       │       │                                  │  C-c  │  C-z  │  <I>  │NEWLINE│ PASTE │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │  <A>  │  <S>  │  DEL  │       │  GOTO │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// │       │       │  DEL  │  <C>  │<SHIFT>│  C-←  │       │       │  │       │       │  <F3> │       │       │       │  C-F  │       │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
+
 
 // ====================================================================================================================================
 // LOWER LAYER: NUMBER ROW
@@ -174,50 +184,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 
-// =============================================================================
-// RAISE LAYER: NAVIGATION
-// =============================================================================
-// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │  C-←  │  C-←  │       │       │                                  │  C-c  │  C-z  │  BASE │NEWLINE│ PASTE │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │       │       │       │  GOTO │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │       │  DEL  │       │       │  C-←  │       │       │  │       │       │       │       │       │       │  C-F  │       │
-// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    [_RAISE] = LAYOUT(
-    _______,  VIM_Q,  VIM_W,  VIM_E,  VIM_R,  VIM_T,                                     VIM_Y,  VIM_U,  VIM_I,  VIM_O,  VIM_P,_______,
-    _______,  VIM_A,  VIM_S,  VIM_D,  VIM_F,  VIM_G,                                     VIM_H,  VIM_J,  VIM_K,  VIM_L,_______,_______,
-    _______,  VIM_Z,  VIM_X,  VIM_C,  VIM_V,  VIM_B,_______,_______,   _______,_______,  VIM_N,  VIM_M,_______,_______,_______,_______,
-                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-    ),
-
-
-/*
- * Raise Layer: Number keys, media, navigation
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |   1  |  2   |  3   |  4   |  5   |                              |  6   |  7   |  8   |  9   |  0   |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |      | Prev | Play | Next | VolUp|                              | Left | Down | Up   | Right|      |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      | Mute | VolDn|      |      |  |      |      | MLeft| Mdown| MUp  |MRight|      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
+//
+// Raise Layer: Number keys, media, navigation
+//
+// ,-------------------------------------------.                              ,-------------------------------------------.
+// |        |   1  |  2   |  3   |  4   |  5   |                              |  6   |  7   |  8   |  9   |  0   |        |
+// |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+// |        |      | Prev | Play | Next | VolUp|                              | Left | Down | Up   | Right|      |        |
+// |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+// |        |      |      |      | Mute | VolDn|      |      |  |      |      | MLeft| Mdown| MUp  |MRight|      |        |
+// `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+//                        |      |      |      |      |      |  |      |      |      |      |      |
+//                        |      |      |      |      |      |  |      |      |      |      |      |
+//                        `----------------------------------'  `----------------------------------'
     [_RAISE] = LAYOUT(
       _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-      _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                       VIM_H, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
+      _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
       _______, _______, _______, _______, KC_MUTE, KC_VOLD, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
- */
 
 /*
  * Adjust Layer: Function keys, RGB
@@ -319,14 +304,17 @@ void oled_task_user(void) {
 // =============================================================================
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
-        case MY_ESC:
+        case VIM_ESC:
             if(record->event.pressed) {
-                layer_on(0);
-                tap_code(KC_ESC);
+                vim.enabled = true;
             }
             return true;
     }
-    return vim_key(keycode, record);
+
+    if(vim.enabled)
+        return vim_key(keycode, record);
+
+    return true;
 }
 
 bool vim_key(uint16_t keycode, keyrecord_t *record) {
@@ -334,45 +322,57 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
     if(!record->event.pressed) return true;
 
     switch(keycode) {
-        // Enter 'normal' mode
-        case VIM_I:
-            layer_on(_QWERTY);
-            break;
-        case VIM_O:
-            tap_code(KC_END);
-            tap_code(KC_ENTER);
-            layer_on(_QWERTY);
+        // Enter 'insert' mode
+        case KC_ESC:
+        case KC_A:
+        case KC_I:
+        case KC_O:
+        case KC_C:
+            vim.enabled = false;
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+                if(keycode == KC_C)
+                    CTRL_TAP(KC_X);
+            }
+            if(keycode == KC_A) {
+                tap_code(KC_RIGHT);
+            }
+            else if(keycode == KC_O) {
+                tap_code(KC_END);
+                tap_code(KC_ENTER);
+            }
             break;
 
         // Navigation
-        case VIM_H:
+        case KC_H:
             tap_code(vim.go ? KC_HOME : KC_LEFT);
             break;
-        case VIM_J:
-            tap_code(KC_DOWN);
+        case KC_J:
+            tap_code(vim.go ? KC_PGDN : KC_DOWN);
             break;
-        case VIM_K:
-            tap_code(KC_UP);
+        case KC_K:
+            tap_code(vim.go ? KC_PGUP : KC_UP);
             break;
-        case VIM_L:
+        case KC_L:
             tap_code(vim.go ? KC_END : KC_RIGHT);
             break;
-        case VIM_W:
+        case KC_W:
             CTRL_TAP(KC_RIGHT);
             break;
-        case VIM_E:
+        case KC_E:
             CTRL_TAP(KC_RIGHT);
             break;
-        case VIM_B:
+        case KC_B:
             CTRL_TAP(KC_LEFT);
             break;
 
-        case VIM_G:
+        case KC_G:
             vim.set_go = true;
             break;
 
         // Paste
-        case VIM_P:
+        case KC_P:
             if(vim.visual) {
                 vim.visual = false;
                 RELEASE_SHIFT();
@@ -381,7 +381,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Copy
-        case VIM_Y:
+        case KC_Y:
             if(vim.visual) {
                 vim.visual = false;
                 RELEASE_SHIFT();
@@ -393,7 +393,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Delete (cut)
-        case VIM_X:
+        case KC_X:
             if(vim.visual) {
                 vim.visual = false;
                 RELEASE_SHIFT();
@@ -403,7 +403,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_DEL);
             }
             break;
-        case VIM_D:
+        case KC_D:
             if(vim.visual) {
                 vim.visual = false;
                 RELEASE_SHIFT();
@@ -415,7 +415,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Visual
-        case VIM_V:
+        case KC_V:
             if(vim.visual) {
                 vim.visual = false;
                 RELEASE_SHIFT();
@@ -427,14 +427,33 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Undo
-        case VIM_U:
+        case KC_U:
             CTRL_TAP(KC_Z);
             break;
 
+        // Escape
+        case KC_Q:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+            }
+            tap_code(KC_ESC);
+            break;
+
+        // Find
+        case KC_SLSH:
+            CTRL_TAP(KC_F);
+            break;
+        case KC_N:
+            tap_code(KC_F3);
+            break;
+
+        default:
+            return true;
     }
     vim.go = vim.set_go;
     vim.set_go = false;
-    return true;
+    return false;
 }
 
 
