@@ -65,6 +65,13 @@
 #define PINK_L2 VIM_ESC
 #define PINK_L3 KC_LSFT
 
+enum layers {
+    _QWERTY = 0,
+    _LOWER,
+    _RAISE,
+    _ADJUST
+};
+
 enum combos {
     CO_QWER
 };
@@ -79,39 +86,38 @@ enum combos {
 }
 bool vim_key(uint16_t keycode, keyrecord_t *record);
 
+typedef enum {
+    VIM_NONE,
+    VIM_DELETE,
+    VIM_CHANGE,
+    VIM_YANK
+} vim_action_t;
 typedef struct {
     bool enabled;
     bool visual;
     bool set_go;
     bool go;
+    vim_action_t action;
 } vim_state_t;
-
-enum layers {
-    _QWERTY = 0,
-    _LOWER,
-    _RAISE,
-    _ADJUST
-};
-
 enum custom_keycodes {
     VIM_ESC = SAFE_RANGE
 };
 
-static vim_state_t vim = {false, false, false, false};
+static vim_state_t vim = {false, false, false, false, VIM_NONE};
 
 
 // =============================================================================
 // COMBOS
 // =============================================================================
+// config.h: #define COMBO_COUNT <count>
+// rules.mk: COMBO_ENABLE = yes
 const uint16_t PROGMEM qwer_combo[] = {KC_Q, KC_W, KC_E, KC_R, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
     [CO_QWER] = COMBO(qwer_combo, KC_TAB)
-
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
 // ====================================================================================================================================
 // BASE LAYER: QWERTY
 // ====================================================================================================================================
@@ -345,6 +351,9 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Navigation
+        case KC_G:
+            vim.set_go = true;
+            break;
         case KC_H:
             tap_code(vim.go ? KC_HOME : KC_LEFT);
             break;
@@ -365,10 +374,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             break;
         case KC_B:
             CTRL_TAP(KC_LEFT);
-            break;
-
-        case KC_G:
-            vim.set_go = true;
             break;
 
         // Paste
