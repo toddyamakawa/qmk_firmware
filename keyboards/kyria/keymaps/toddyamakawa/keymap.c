@@ -54,7 +54,7 @@
 #define THUM_R1 LT(_RAISE, KC_BSPC)
 #define THUM_R2 MT(MOD_LSFT, KC_SPC)
 #define THUM_R3 LT(_LOWER, KC_DEL)
-#define THUM_R4 KC_TAB
+#define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_SLCK
 #define THUM_R6 LT(_RAISE, KC_HOME)
 #define THUM_R7 LT(_LOWER, KC_END)
@@ -64,8 +64,20 @@
 #define PINK_L2 TO(_RAISE)
 #define PINK_L3 KC_LSFT
 
+// =============================================================================
+// VIM
+// =============================================================================
+#define VIM_EXIT_VISUAL() { \
+    vim.visual = false; \
+    RELEASE_SHIFT(); \
+}
 bool vim_key(uint16_t keycode, keyrecord_t *record);
 
+typedef struct {
+    bool visual;
+    bool set_go;
+    bool go;
+} vim_state_t;
 
 enum layers {
     _QWERTY = 0,
@@ -74,10 +86,6 @@ enum layers {
     _ADJUST
 };
 
-
-// =============================================================================
-// VIM
-// =============================================================================
 enum custom_keycodes {
     MY_ESC = SAFE_RANGE,
     VIM_A,
@@ -107,6 +115,8 @@ enum custom_keycodes {
     VIM_Y,
     VIM_Z
 };
+
+static vim_state_t vim = {false, false, false};
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -169,13 +179,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // =============================================================================
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │       │       │       │       │                                  │       │       │  BASE │       │       │       │
+// │       │       │  C-←  │  C-←  │       │       │                                  │  C-c  │  C-z  │  BASE │NEWLINE│ PASTE │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │       │       │       │       │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
+// │       │       │       │       │       │  GOTO │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │       │       │       │       │  C-←  │       │       │  │       │       │       │       │       │       │  C-F  │       │
+// │       │       │  DEL  │       │       │  C-←  │       │       │  │       │       │       │       │       │       │  C-F  │       │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
@@ -316,7 +326,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
     }
-
     return vim_key(keycode, record);
 }
 
@@ -337,7 +346,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
 
         // Navigation
         case VIM_H:
-            tap_code(KC_LEFT);
+            tap_code(vim.go ? KC_HOME : KC_LEFT);
             break;
         case VIM_J:
             tap_code(KC_DOWN);
@@ -346,7 +355,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             tap_code(KC_UP);
             break;
         case VIM_L:
-            tap_code(KC_RIGHT);
+            tap_code(vim.go ? KC_END : KC_RIGHT);
             break;
         case VIM_W:
             CTRL_TAP(KC_RIGHT);
@@ -358,11 +367,73 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             CTRL_TAP(KC_LEFT);
             break;
 
-        // Cut
-        case VIM_X:
-            tap_code(KC_DEL);
+        case VIM_G:
+            vim.set_go = true;
             break;
+
+        // Paste
+        case VIM_P:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+            }
+            CTRL_TAP(KC_V);
+            break;
+
+        // Copy
+        case VIM_Y:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+                CTRL_TAP(KC_C);
+            }
+            else {
+                // TODO: Implement
+            }
+            break;
+
+        // Delete (cut)
+        case VIM_X:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+                CTRL_TAP(KC_X);
+            }
+            else {
+                tap_code(KC_DEL);
+            }
+            break;
+        case VIM_D:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+                CTRL_TAP(KC_X);
+            }
+            else {
+                // TODO: Implement
+            }
+            break;
+
+        // Visual
+        case VIM_V:
+            if(vim.visual) {
+                vim.visual = false;
+                RELEASE_SHIFT();
+            }
+            else {
+                vim.visual = true;
+                HOLD_SHIFT();
+            }
+            break;
+
+        // Undo
+        case VIM_U:
+            CTRL_TAP(KC_Z);
+            break;
+
     }
+    vim.go = vim.set_go;
+    vim.set_go = false;
     return true;
 }
 
