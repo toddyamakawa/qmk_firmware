@@ -28,8 +28,22 @@
   #define RGBLIGHT_LIMIT_VAL 150
 #endif
 
-#define COMBO_COUNT 1
+
 
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 // #define SPLIT_USB_DETECT
 // #define NO_USB_STARTUP_CHECK
+
+
+// Combos
+#define COMBO_COUNT 1
+
+// Global tapping term (default=200)
+#define TAPPING_TERM 150
+// Ignore tap intertuptions while modifier held
+#define IGNORE_MOD_TAP_INTERRUPT
+// Disable tap-hold auto-repeat
+#define TAPPING_FORCE_HOLD
+// Apply modifiers held for a short hold
+#define PERMISSIVE_HOLD
+
