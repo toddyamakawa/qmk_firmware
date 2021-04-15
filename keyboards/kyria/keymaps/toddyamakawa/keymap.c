@@ -46,7 +46,7 @@
 
 #define THUM_L1 MT(MOD_LCTL, KC_ESC)
 #define THUM_L2 MT(MOD_LALT, KC_ENT)
-#define THUM_L3 LT(_LOWER, KC_TAB)
+#define THUM_L3 LT(_LOWER, KC_DEL)
 #define THUM_L4 KC_LGUI
 #define THUM_L5 KC_MUTE
 #define THUM_L6 LT(_RAISE, KC_PGDN)
@@ -132,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
 //                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ RAISE │ SHIFT │ LOWER │       │ SCROLL│
-//                         │  MUTE │       │  TAB  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
+//                         │  MUTE │       │  DEL  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
     // TODO: Figure out why this doesn't work
@@ -171,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │   <   │   [   │   {   │   (   │       │                                  │       │   )   │   }   │   ]   │   >   │       │
+// │       │   <   │   [   │   {   │   (   │   '   │                                  │   "   │   )   │   }   │   ]   │   >   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   $   │   #   │   @   │   !   │   %   │                                  │   ^   │   )   │   (   │   *   │   &   │       │
 // │       │   4   │   3   │   2   │   1   │   5   │                                  │   6   │   0   │   9   │   8   │   7   │       │
@@ -183,7 +183,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_LOWER] = LAYOUT(
-    _______,  KC_LT,KC_LBRC,KC_LCBR,KC_LPRN,_______,                                   _______,KC_RPRN,KC_RCBR,KC_RBRC,  KC_GT,_______,
+    _______,  KC_LT,KC_LBRC,KC_LCBR,KC_LPRN,KC_QUOT,                                   KC_DQUO,KC_RPRN,KC_RCBR,KC_RBRC,  KC_GT,_______,
     _______,   KC_4,   KC_3,   KC_2,   KC_1,   KC_5,                                      KC_6,   KC_0,   KC_9,   KC_8,   KC_7,_______,
     _______,KC_TILD, KC_GRV,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
@@ -427,6 +427,7 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             }
             else {
                 vim.visual = true;
+                // TODO: Rewrite this to never hold shift
                 HOLD_SHIFT();
             }
             break;
