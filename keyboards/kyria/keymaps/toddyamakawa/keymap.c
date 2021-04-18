@@ -22,10 +22,10 @@
 
 #define HOLD_SHIFT()      register_mods(MOD_BIT(KC_LSFT))
 #define RELEASE_SHIFT() unregister_mods(MOD_BIT(KC_LSFT))
-#define HOLD_ALT()        register_mods(MOD_BIT(KC_LALT))
-#define RELEASE_ALT()   unregister_mods(MOD_BIT(KC_LALT))
 #define HOLD_CTRL()       register_mods(MOD_BIT(KC_LCTRL))
 #define RELEASE_CTRL()  unregister_mods(MOD_BIT(KC_LCTRL))
+#define HOLD_ALT()        register_mods(MOD_BIT(KC_LALT))
+#define RELEASE_ALT()   unregister_mods(MOD_BIT(KC_LALT))
 #define HOLD_GUI()        register_mods(MOD_BIT(KC_LGUI))
 #define RELEASE_GUI()   unregister_mods(MOD_BIT(KC_LGUI))
 
@@ -76,6 +76,15 @@ enum combos {
     CO_QWER
 };
 
+typedef enum {
+    MOD_SHIFT = 0b0001,
+    MOD_CTRL  = 0b0010,
+    MOD_ALT   = 0b0100,
+    MOD_GUI   = 0b1000
+} modifier_t;
+
+void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier);
+
 
 // =============================================================================
 // VIM
@@ -84,7 +93,9 @@ enum combos {
     vim.visual = false; \
     RELEASE_SHIFT(); \
 }
-bool vim_key(uint16_t keycode, keyrecord_t *record);
+bool process_vim_key(uint16_t keycode, keyrecord_t *record);
+
+#define MOD_VIM_VISUAL ((vim.visual) ? MOD_SHIFT : 0)
 
 typedef enum {
     VIM_NONE,
@@ -318,12 +329,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if(vim.enabled)
-        return vim_key(keycode, record);
+        return process_vim_key(keycode, record);
 
     return true;
 }
 
-bool vim_key(uint16_t keycode, keyrecord_t *record) {
+bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
     // Nothing fancy in here
     if(!record->event.pressed) return true;
 
@@ -337,7 +348,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             vim.enabled = false;
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
                 if(keycode == KC_C)
                     CTRL_TAP(KC_X);
             }
@@ -355,25 +365,25 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
             vim.set_go = true;
             break;
         case KC_H:
-            tap_code(vim.go ? KC_HOME : KC_LEFT);
+            press_key(vim.go ? KC_HOME : KC_LEFT, record, MOD_VIM_VISUAL);
             break;
         case KC_J:
-            tap_code(vim.go ? KC_PGDN : KC_DOWN);
+            press_key(vim.go ? KC_PGDN : KC_DOWN, record, MOD_VIM_VISUAL);
             break;
         case KC_K:
-            tap_code(vim.go ? KC_PGUP : KC_UP);
+            press_key(vim.go ? KC_PGUP : KC_UP, record, MOD_VIM_VISUAL);
             break;
         case KC_L:
-            tap_code(vim.go ? KC_END : KC_RIGHT);
+            press_key(vim.go ? KC_END : KC_RIGHT, record, MOD_VIM_VISUAL);
             break;
         case KC_W:
-            CTRL_TAP(KC_RIGHT);
+            press_key(KC_RIGHT, record, MOD_CTRL | MOD_VIM_VISUAL);
             break;
         case KC_E:
-            CTRL_TAP(KC_RIGHT);
+            press_key(KC_RIGHT, record, MOD_CTRL | MOD_VIM_VISUAL);
             break;
         case KC_B:
-            CTRL_TAP(KC_LEFT);
+            press_key(KC_LEFT, record, MOD_CTRL | MOD_VIM_VISUAL);
             break;
 
         // Paste
@@ -389,7 +399,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_Y:
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
                 CTRL_TAP(KC_C);
             }
             else {
@@ -401,7 +410,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_X:
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
                 CTRL_TAP(KC_X);
             }
             else {
@@ -411,7 +419,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_D:
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
                 CTRL_TAP(KC_X);
             }
             else {
@@ -423,12 +430,9 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_V:
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
             }
             else {
                 vim.visual = true;
-                // TODO: Rewrite this to never hold shift
-                HOLD_SHIFT();
             }
             break;
 
@@ -441,7 +445,6 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_Q:
             if(vim.visual) {
                 vim.visual = false;
-                RELEASE_SHIFT();
             }
             tap_code(KC_ESC);
             break;
@@ -460,6 +463,18 @@ bool vim_key(uint16_t keycode, keyrecord_t *record) {
     vim.go = vim.set_go;
     vim.set_go = false;
     return false;
+}
+
+void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
+    if(modifier & MOD_SHIFT) HOLD_SHIFT();
+    if(modifier & MOD_CTRL ) HOLD_CTRL();
+    if(modifier & MOD_ALT  ) HOLD_ALT();
+    if(modifier & MOD_GUI  ) HOLD_GUI();
+    tap_code(keycode);
+    if(modifier & MOD_GUI  ) RELEASE_GUI();
+    if(modifier & MOD_ALT  ) RELEASE_ALT();
+    if(modifier & MOD_CTRL ) RELEASE_CTRL();
+    if(modifier & MOD_SHIFT) RELEASE_SHIFT();
 }
 
 
