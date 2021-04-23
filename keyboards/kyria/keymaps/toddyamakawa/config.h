@@ -39,11 +39,11 @@
 #define COMBO_COUNT 1
 
 // Global tapping term (default=200)
-#define TAPPING_TERM 150
+//#define TAPPING_TERM 150
 // Ignore tap intertuptions while modifier held
-#define IGNORE_MOD_TAP_INTERRUPT
+//#define IGNORE_MOD_TAP_INTERRUPT
 // Disable tap-hold auto-repeat
 #define TAPPING_FORCE_HOLD
 // Apply modifiers held for a short hold
-#define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD
 
