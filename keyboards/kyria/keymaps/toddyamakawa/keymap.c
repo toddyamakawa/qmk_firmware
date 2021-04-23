@@ -51,9 +51,12 @@
 #define THUM_L5 KC_MUTE
 #define THUM_L6 LT(_RAISE, KC_PGDN)
 #define THUM_L7 LT(_LOWER, KC_PGUP)
-#define THUM_R1 LT(_RAISE, KC_BSPC)
-#define THUM_R2 MT(MOD_LSFT, KC_SPC)
-#define THUM_R3 LT(_LOWER, KC_DEL)
+#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
+//#define THUM_R1 LT(_RAISE, KC_BSPC)
+#define THUM_R2 KC_SPC
+//#define THUM_R2 MT(MOD_LSFT, KC_SPC)
+#define THUM_R3 LT(_RAISE, KC_DEL)
+//#define THUM_R3 LT(_LOWER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_SLCK
 #define THUM_R6 LT(_RAISE, KC_HOME)
@@ -69,7 +72,9 @@ enum layers {
     _QWERTY = 0,
     _LOWER,
     _RAISE,
-    _ADJUST
+    _ADJUST,
+    _LEFT,
+    _RIGHT
 };
 
 enum combos {
@@ -129,6 +134,12 @@ combo_t key_combos[COMBO_COUNT] = {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+//  _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+//  _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+//  _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+//                          _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+//
+
 // ====================================================================================================================================
 // BASE LAYER: QWERTY
 // ====================================================================================================================================
@@ -142,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
 // │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ RAISE │ SHIFT │ LOWER │       │ SCROLL│
+//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ SHIFT │       │ RAISE │       │ SCROLL│
 //                         │  MUTE │       │  DEL  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
@@ -154,6 +165,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,KC_QUOT,
     PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
+    ),
+
+    // TODO:
+    [_LEFT] = LAYOUT(
+    KC_TAB ,KC_ESC ,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
+    _______,KC_UNDO,KC_CUT ,KC_COPY,KC_PSTE,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+
+    ),
+
+    [_RIGHT] = LAYOUT(
+    _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
+    _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
 
@@ -241,6 +268,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
+
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
