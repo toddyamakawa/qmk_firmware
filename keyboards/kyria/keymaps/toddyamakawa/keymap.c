@@ -44,30 +44,38 @@
 #define _______________QWERTY_R2_______________ KC_H, KC_J, KC_K   , KC_L  , KC_SCLN
 #define _______________QWERTY_R3_______________ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH
 
-#define THUM_L1 MT(MOD_LCTL, KC_ESC)
-#define THUM_L2 MT(MOD_LALT, KC_ENT)
-#define THUM_L3 LT(_LOWER, KC_DEL)
+
+#define OS_SFT OSM(MOD_LSFT)
+#define OS_CTL OSM(MOD_LCTL)
+#define OS_ALT OSM(MOD_LALT)
+#define OS_GUI OSM(MOD_LGUI)
+
+
+#define THUM_L1 MO(_LEFT)
+//#define THUM_L1 LT(_LEFT, KC_ESC)
+//#define THUM_L1 MT(MOD_LCTL, KC_ESC)
+#define THUM_L2 MO(_LOWER)
+//#define THUM_L2 LT(_LOWER, KC_ENT)
+//#define THUM_L2 MT(MOD_LALT, KC_ENT)
+#define THUM_L3 LT(_RIGHT, KC_DEL)
+//#define THUM_L3 LT(_LOWER, KC_DEL)
 #define THUM_L4 KC_LGUI
 #define THUM_L5 KC_MUTE
 #define THUM_L6 LT(_RAISE, KC_PGDN)
 #define THUM_L7 LT(_LOWER, KC_PGUP)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
-//#define THUM_R1 LT(_RAISE, KC_BSPC)
 #define THUM_R2 KC_SPC
-//#define THUM_R2 MT(MOD_LSFT, KC_SPC)
-#define THUM_R3 LT(_RAISE, KC_DEL)
+#define THUM_R3 MO(_RIGHT)
+//#define THUM_R3 LT(_RAISE, KC_DEL)
 //#define THUM_R3 LT(_LOWER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_SLCK
 #define THUM_R6 LT(_RAISE, KC_HOME)
 #define THUM_R7 LT(_LOWER, KC_END)
 
-//#define THUM_L1 MT(MOD_LCTL, KC_ESC)
-//#define THUM_L2 MT(MOD_LALT, KC_ENT)
-//#define THUM_L3 LT(_LOWER, KC_DEL)
 //#define THUM_L4 KC_LGUI
-#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
-#define THUM_R2 KC_SPC
+//#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
+//#define THUM_R2 KC_SPC
 //#define THUM_R3 LT(_RIGHT, KC_DEL)
 //#define THUM_R4 MT(MOD_RGUI, KC_TAB)
 
@@ -176,17 +184,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
 
-    // TODO: Use this
     [_LEFT] = LAYOUT(
-    KC_TAB ,KC_ESC ,KC_DEL ,KC_HOME,KC_END ,_______,                                   _______,_______,_______,_______,_______,_______,
-    _______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,_______,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    _______,KC_UNDO,KC_CUT ,KC_COPY,KC_PSTE,_______,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
+    KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
+  //_______,OS_SFT ,OS_GUI ,OS_ALT ,OS_CTL ,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
+    _______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
+    _______,KC_UNDO,KC_CUT ,KC_COPY,KC_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
 
     ),
 
     [_RIGHT] = LAYOUT(
-    _______,KC_F11 ,_______,_______,_______,_______,                                   _______,_______,_______,_______,KC_F12 ,_______,
+    _______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,_______,_______,_______,KC_F12 ,_______,
     _______,KC_BTN1,KC_BTN3,KC_BTN2,KC_BTN1,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
     _______,KC_F4  ,KC_F3  ,KC_F2  ,KC_F1  ,KC_F5  ,_______,_______,   _______,_______,KC_F6  ,KC_F10 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
