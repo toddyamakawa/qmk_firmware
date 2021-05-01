@@ -54,8 +54,8 @@
 #define THUM_L1 MO(_LEFT)
 //#define THUM_L1 LT(_LEFT, KC_ESC)
 //#define THUM_L1 MT(MOD_LCTL, KC_ESC)
-#define THUM_L2 MO(_LOWER)
-//#define THUM_L2 LT(_LOWER, KC_ENT)
+//#define THUM_L2 MO(_LOWER)
+#define THUM_L2 LT(_LOWER, KC_ENT)
 //#define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 //#define THUM_L3 LT(_LOWER, KC_DEL)
@@ -244,53 +244,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
-
-//
 // Raise Layer: Number keys, media, navigation
-//
-// ,-------------------------------------------.                              ,-------------------------------------------.
-// |        |   1  |  2   |  3   |  4   |  5   |                              |  6   |  7   |  8   |  9   |  0   |        |
-// |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
-// |        |      | Prev | Play | Next | VolUp|                              | Left | Down | Up   | Right|      |        |
-// |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
-// |        |      |      |      | Mute | VolDn|      |      |  |      |      | MLeft| Mdown| MUp  |MRight|      |        |
-// `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
-//                        |      |      |      |      |      |  |      |      |      |      |      |
-//                        |      |      |      |      |      |  |      |      |      |      |      |
-//                        `----------------------------------'  `----------------------------------'
-    [_RAISE] = LAYOUT(
-      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-      _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
-      _______, _______, _______, _______, KC_MUTE, KC_VOLD, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
+//  [_RAISE] = LAYOUT(
+//    _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+//    _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
+//    _______, _______, _______, _______, KC_MUTE, KC_VOLD, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
+//                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+//  ),
 
-/*
- * Adjust Layer: Function keys, RGB
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        | F1   |  F2  | F3   | F4   | F5   |                              | F6   | F7   |  F8  | F9   | F10  |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        | TOG  | SAI  | HUI  | VAI  | MOD  |                              |      |      |      | F11  | F12  |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      | SAD  | HUD  | VAD  | RMOD |      |      |  |      |      |      |      |      |      |      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
-    [_ADJUST] = LAYOUT(
-      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
-      _______, RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI, RGB_MOD,                                     _______, _______, _______, KC_F11,  KC_F12,  _______,
-      _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
+// Adjust Layer: Function keys, RGB
+//  [_ADJUST] = LAYOUT(
+//    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+//    _______, RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI, RGB_MOD,                                     _______, _______, _______, KC_F11,  KC_F12,  _______,
+//    _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+//                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+// ),
 
 };
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -380,6 +350,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
+    // TODO: Add this later
+    return true;
+
     // Nothing fancy in here
     if(!record->event.pressed) return true;
 
@@ -522,6 +495,24 @@ void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
     if(modifier & MOD_SHIFT) RELEASE_SHIFT();
 }
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case THUM_L2:
+        //case LT(_LOWER, KC_ENT):
+            return 0;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case THUM_L2:
+            return true;
+        default:
+            return false;
+    }
+}
 
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {

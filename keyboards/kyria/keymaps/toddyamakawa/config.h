@@ -28,6 +28,11 @@
   #define RGBLIGHT_LIMIT_VAL 150
 #endif
 
+// TODO: Use this
+// https://github.com/qmk/qmk_firmware/pull/9404
+#define TAPPING_TERM_PER_KEY
+#define RETRO_TAPPING_PER_KEY
+
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 // #define SPLIT_USB_DETECT
 // #define NO_USB_STARTUP_CHECK
@@ -46,5 +51,4 @@
 #define PERMISSIVE_HOLD
 
 #define ONESHOT_TAP_TOGGLE 1
-
 
