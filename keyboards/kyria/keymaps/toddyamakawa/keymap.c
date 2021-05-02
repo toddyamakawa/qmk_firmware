@@ -111,10 +111,6 @@ void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier);
 // =============================================================================
 // VIM
 // =============================================================================
-#define VIM_EXIT_VISUAL() { \
-    vim.visual = false; \
-    RELEASE_SHIFT(); \
-}
 bool process_vim_key(uint16_t keycode, keyrecord_t *record);
 
 #define MOD_VIM_VISUAL ((vim.visual) ? MOD_SHIFT : 0)
@@ -132,8 +128,10 @@ typedef struct {
     bool go;
     vim_action_t action;
 } vim_state_t;
+
 enum custom_keycodes {
-    VIM_ESC = SAFE_RANGE
+    VIM_ESC = SAFE_RANGE,
+    KEY_HOLD_S,
 };
 
 static vim_state_t vim = {false, false, false, false, VIM_NONE};
@@ -144,10 +142,17 @@ static vim_state_t vim = {false, false, false, false, VIM_NONE};
 // =============================================================================
 // config.h: #define COMBO_COUNT <count>
 // rules.mk: COMBO_ENABLE = yes
+enum combo_events {
+    COMBO_SELECT_ROW
+};
 const uint16_t PROGMEM qwer_combo[] = {KC_Q, KC_W, KC_E, KC_R, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
-    [CO_QWER] = COMBO(qwer_combo, KC_TAB)
+    [CO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW)
 };
+
+
+int testing;
+
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -336,6 +341,13 @@ void oled_task_user(void) {
 // =============================================================================
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
+        case KEY_HOLD_S:
+            if(record->event.pressed) {
+                tap_code(KC_S);
+                oled_write_P(PSTR("S\n"), false);
+            }
+            return false;
+
         case VIM_ESC:
             if(record->event.pressed) {
                 vim.enabled = true;
@@ -348,6 +360,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 }
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch(combo_index) {
+        case COMBO_SELECT_ROW:
+            if(pressed) {
+                oled_write_P(PSTR("D\n"), false);
+                tap_code16(KEY_HOLD_S);
+                //tap_code(KC_HOME);
+                //HOLD_SHIFT();
+                //tap_code(KC_END);
+                //RELEASE_SHIFT();
+                //tap_code(KC_BSPC);
+            }
+            else
+                oled_write_P(PSTR("U\n"), false);
+            break;
+    }
+}
+
+
+// TODO: Add process_mod_key() function
+// Basically it will hold down any mod keys until the special key is released.
+
 
 bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
     // TODO: Add this later
@@ -495,24 +530,23 @@ void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
     if(modifier & MOD_SHIFT) RELEASE_SHIFT();
 }
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-        case THUM_L2:
-        //case LT(_LOWER, KC_ENT):
-            return 0;
-        default:
-            return TAPPING_TERM;
-    }
-}
+//uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+//    switch(keycode) {
+//        case THUM_L2:
+//            return 0;
+//        default:
+//            return TAPPING_TERM;
+//    }
+//}
 
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-        case THUM_L2:
-            return true;
-        default:
-            return false;
-    }
-}
+//bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+//    switch(keycode) {
+//        case THUM_L2:
+//            return true;
+//        default:
+//            return false;
+//    }
+//}
 
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
