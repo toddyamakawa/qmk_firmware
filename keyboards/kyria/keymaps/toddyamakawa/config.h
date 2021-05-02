@@ -30,8 +30,10 @@
 
 // TODO: Use this
 // https://github.com/qmk/qmk_firmware/pull/9404
-#define TAPPING_TERM_PER_KEY
-#define RETRO_TAPPING_PER_KEY
+//#define TAPPING_TERM_PER_KEY
+//#define RETRO_TAPPING_PER_KEY
+#define RETRO_TAPPING
+#define TAPPING_TERM 0
 
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 // #define SPLIT_USB_DETECT
@@ -39,6 +41,7 @@
 
 // Combos
 #define COMBO_COUNT 1
+#define COMBO_TERM 25
 
 // Global tapping term (default=200)
 //#define TAPPING_TERM 150
