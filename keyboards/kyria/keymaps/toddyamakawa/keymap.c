@@ -51,27 +51,27 @@
 #define OS_GUI OSM(MOD_LGUI)
 
 
-#define THUM_L1 MO(_LEFT)
-//#define THUM_L1 LT(_LEFT, KC_ESC)
+//#define THUM_L1 MO(_LEFT)
+#define THUM_L1 LT(_LEFT, KC_TAB)
 //#define THUM_L1 MT(MOD_LCTL, KC_ESC)
-//#define THUM_L2 MO(_LOWER)
-#define THUM_L2 LT(_LOWER, KC_ENT)
+#define THUM_L2 MO(_NUMBER)
+//#define THUM_L2 LT(_NUMBER, KC_ENT)
 //#define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
-//#define THUM_L3 LT(_LOWER, KC_DEL)
+//#define THUM_L3 LT(_NUMBER, KC_DEL)
 #define THUM_L4 KC_LGUI
 #define THUM_L5 KC_MUTE
 #define THUM_L6 LT(_RAISE, KC_PGDN)
-#define THUM_L7 LT(_LOWER, KC_PGUP)
+#define THUM_L7 LT(_NUMBER, KC_PGUP)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
 #define THUM_R3 MO(_RIGHT)
 //#define THUM_R3 LT(_RAISE, KC_DEL)
-//#define THUM_R3 LT(_LOWER, KC_DEL)
+//#define THUM_R3 LT(_NUMBER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_SLCK
 #define THUM_R6 LT(_RAISE, KC_HOME)
-#define THUM_R7 LT(_LOWER, KC_END)
+#define THUM_R7 LT(_NUMBER, KC_END)
 
 //#define THUM_L4 KC_LGUI
 //#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
@@ -87,7 +87,7 @@
 
 enum layers {
     _QWERTY = 0,
-    _LOWER,
+    _NUMBER,
     _RAISE,
     _ADJUST,
     _LEFT,
@@ -131,6 +131,10 @@ typedef struct {
 
 enum custom_keycodes {
     VIM_ESC = SAFE_RANGE,
+    MY_UNDO,
+    MY_CUT,
+    MY_COPY,
+    MY_PSTE,
     KEY_HOLD_S,
 };
 
@@ -150,9 +154,11 @@ combo_t key_combos[COMBO_COUNT] = {
     [CO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW)
 };
 
-
-int testing;
-
+//const uint16_t PROGMEM control[] = {KC_DEL, KC_F, COMBO_END};
+//const uint16_t PROGMEM control[] = {KC_A, KC_S, COMBO_END};
+//combo_t key_combos[COMBO_COUNT] = {
+//	COMBO(control, KC_LCTL)
+//};
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -192,8 +198,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LEFT] = LAYOUT(
     KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
   //_______,OS_SFT ,OS_GUI ,OS_ALT ,OS_CTL ,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    _______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    _______,KC_UNDO,KC_CUT ,KC_COPY,KC_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
+  //_______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
+    _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
+    _______,MY_UNDO,MY_CUT ,MY_COPY,MY_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
 
     ),
@@ -242,7 +249,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    [_LOWER] = LAYOUT(
+    [_NUMBER] = LAYOUT(
     _______,KC_LT  ,KC_LBRC,KC_LCBR,KC_LPRN,KC_QUOT,                                   KC_DQUO,KC_RPRN,KC_RCBR,KC_RBRC,KC_GT  ,_______,
     _______,KC_4   ,KC_3   ,KC_2   ,KC_1   ,KC_5   ,                                   KC_6   ,KC_0   ,KC_9   ,KC_8   ,KC_7   ,_______,
     _______,KC_TILD, KC_GRV,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
@@ -306,8 +313,8 @@ static void render_status(void) {
         case _QWERTY:
             oled_write_P(PSTR("Default\n"), false);
             break;
-        case _LOWER:
-            oled_write_P(PSTR("Lower\n"), false);
+        case _NUMBER:
+            oled_write_P(PSTR("Number\n"), false);
             break;
         case _RAISE:
             oled_write_P(PSTR("Raise\n"), false);
@@ -341,6 +348,28 @@ void oled_task_user(void) {
 // =============================================================================
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
+
+        case MY_UNDO:
+            if(record->event.pressed) {
+                tap_code16(LCTL(KC_Z));
+            }
+            return false;
+        case MY_CUT:
+            if(record->event.pressed) {
+                tap_code16(LCTL(KC_X));
+            }
+            return false;
+        case MY_COPY:
+            if(record->event.pressed) {
+                tap_code16(LCTL(KC_C));
+            }
+            return false;
+        case MY_PSTE:
+            if(record->event.pressed) {
+                tap_code16(LCTL(KC_V));
+            }
+            return false;
+
         case KEY_HOLD_S:
             if(record->event.pressed) {
                 tap_code(KC_S);
@@ -365,16 +394,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     switch(combo_index) {
         case COMBO_SELECT_ROW:
             if(pressed) {
-                oled_write_P(PSTR("D\n"), false);
-                tap_code16(KEY_HOLD_S);
-                //tap_code(KC_HOME);
-                //HOLD_SHIFT();
-                //tap_code(KC_END);
-                //RELEASE_SHIFT();
+                tap_code(KC_HOME);
+                HOLD_SHIFT();
+                tap_code(KC_END);
+                RELEASE_SHIFT();
                 //tap_code(KC_BSPC);
             }
-            else
-                oled_write_P(PSTR("U\n"), false);
             break;
     }
 }
