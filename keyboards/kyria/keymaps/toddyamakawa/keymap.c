@@ -60,7 +60,7 @@
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 //#define THUM_L3 LT(_NUMBER, KC_DEL)
 #define THUM_L4 KC_LGUI
-#define THUM_L5 KC_MUTE
+#define THUM_L5 KC_SLCK
 #define THUM_L6 LT(_RAISE, KC_PGDN)
 #define THUM_L7 LT(_NUMBER, KC_PGUP)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
@@ -69,7 +69,7 @@
 //#define THUM_R3 LT(_RAISE, KC_DEL)
 //#define THUM_R3 LT(_NUMBER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
-#define THUM_R5 KC_SLCK
+#define THUM_R5 KC_MUTE
 #define THUM_R6 LT(_RAISE, KC_HOME)
 #define THUM_R7 LT(_NUMBER, KC_END)
 
@@ -206,7 +206,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_RIGHT] = LAYOUT(
-    _______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,_______,_______,_______,KC_F12 ,_______,
+    _______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,KC_MPRV,KC_MPLY,KC_MNXT,KC_F12 ,_______,
     _______,KC_BTN1,KC_BTN3,KC_BTN2,KC_BTN1,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
     _______,KC_F4  ,KC_F3  ,KC_F2  ,KC_F1  ,KC_F5  ,_______,_______,   _______,_______,KC_F6  ,KC_F10 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
@@ -574,24 +574,45 @@ void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
 //}
 
 #ifdef ENCODER_ENABLE
+//#define ENCODER_MOUSE
 void encoder_update_user(uint8_t index, bool clockwise) {
+#ifdef ENCODER_MOUSE
     // Left knob
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_VOLU);
+            tap_code(KC_MS_L);
         } else {
-            tap_code(KC_VOLD);
+            tap_code(KC_MS_R);
         }
     }
 
     // Right knob
     else if (index == 1) {
         if (clockwise) {
+            tap_code(KC_MS_U);
+        } else {
+            tap_code(KC_MS_D);
+        }
+    }
+#else
+    // Left knob
+    if (index == 0) {
+        if (clockwise) {
             tap_code(KC_PGUP);
         } else {
             tap_code(KC_PGDN);
         }
     }
+
+    // Right knob
+    else if (index == 1) {
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
+    }
+#endif
 }
 #endif
 
