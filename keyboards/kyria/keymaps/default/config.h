@@ -33,4 +33,7 @@
 // #define NO_USB_STARTUP_CHECK
 
 #define COMBO_COUNT 1
+#define TAPPING_TERM 0
+#define RETRO_TAPPING
+
 
