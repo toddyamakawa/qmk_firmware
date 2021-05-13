@@ -42,7 +42,7 @@
 // #define NO_USB_STARTUP_CHECK
 
 // Combos
-#define COMBO_COUNT 1
+#define COMBO_COUNT 2
 #define COMBO_TERM 25
 
 // Global tapping term (default=200)
