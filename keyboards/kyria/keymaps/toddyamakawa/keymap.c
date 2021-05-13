@@ -51,18 +51,20 @@
 #define OS_GUI OSM(MOD_LGUI)
 
 
-//#define THUM_L1 MO(_LEFT)
-#define THUM_L1 LT(_LEFT, KC_TAB)
+#define THUM_L1 MO(_LEFT)
 //#define THUM_L1 MT(MOD_LCTL, KC_ESC)
 #define THUM_L2 MO(_NUMBER)
+//#define THUM_L2 KC_ENT
 //#define THUM_L2 LT(_NUMBER, KC_ENT)
 //#define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 //#define THUM_L3 LT(_NUMBER, KC_DEL)
-#define THUM_L4 KC_LGUI
+#define THUM_L4 KC_DEL
 #define THUM_L5 KC_SLCK
-#define THUM_L6 LT(_RAISE, KC_PGDN)
-#define THUM_L7 LT(_NUMBER, KC_PGUP)
+#define THUM_L6 KC_LCTL
+//#define THUM_L6 LT(_RAISE, KC_PGDN)
+#define THUM_L7 KC_LSFT
+//#define THUM_L7 LT(_NUMBER, KC_PGUP)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
 #define THUM_R3 MO(_RIGHT)
@@ -70,20 +72,18 @@
 //#define THUM_R3 LT(_NUMBER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_MUTE
-#define THUM_R6 LT(_RAISE, KC_HOME)
+//#define THUM_R6 LT(_RAISE, KC_HOME)
+#define THUM_R6 MO(_NUMBER)
 #define THUM_R7 LT(_NUMBER, KC_END)
-
-//#define THUM_L4 KC_LGUI
-//#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
-//#define THUM_R2 KC_SPC
-//#define THUM_R3 LT(_RIGHT, KC_DEL)
-//#define THUM_R4 MT(MOD_RGUI, KC_TAB)
 
 #define PINK_L1 KC_TAB
 //#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
 //#define PINK_L2 TO(_RAISE)
 #define PINK_L2 VIM_ESC
 #define PINK_L3 KC_LSFT
+#define PINK_R1 _______
+#define PINK_R2 KC_QUOT
+#define PINK_R3 _______
 
 enum layers {
     _QWERTY = 0,
@@ -95,7 +95,8 @@ enum layers {
 };
 
 enum combos {
-    CO_QWER
+    COMBO_QWER,
+	COMBO_CTRL
 };
 
 typedef enum {
@@ -150,8 +151,10 @@ enum combo_events {
     COMBO_SELECT_ROW
 };
 const uint16_t PROGMEM qwer_combo[] = {KC_Q, KC_W, KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM ctrl_combo[] = {KC_SPC, KC_F, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
-    [CO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW)
+    [COMBO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW),
+    [COMBO_CTRL] = COMBO(ctrl_combo, KC_LCTL)
 };
 
 //const uint16_t PROGMEM control[] = {KC_DEL, KC_F, COMBO_END};
@@ -189,9 +192,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  PINK_L1,_______________QWERTY_L1_______________,                                   _______________QWERTY_R1_______________,KC_PIPE,
 //  PINK_L2,_______________QWERTY_L2_______________,                                   _______________QWERTY_R2_______________,KC_QUOT,
 //  PINK_L3,_______________QWERTY_L3_______________,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,_______________QWERTY_R3_______________,KC_MINS,
-    PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,KC_PIPE,
-    PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,KC_QUOT,
-    PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,KC_MINS,
+    PINK_L1,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,PINK_R1,
+    PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,PINK_R2,
+    PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,PINK_R3,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
 
@@ -202,7 +205,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
     _______,MY_UNDO,MY_CUT ,MY_COPY,MY_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-
     ),
 
     [_RIGHT] = LAYOUT(
@@ -303,6 +305,9 @@ static void render_qmk_logo(void) {
 }
 
 static void render_status(void) {
+    // TODO: Uncomment this to get more memory
+    return;
+
     // QMK Logo and version information
     render_qmk_logo();
     oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
@@ -598,9 +603,15 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     // Left knob
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_PGUP);
+            //tap_code(KC_PGUP);
+            for(int i = 0; i < 12; i++) {
+                tap_code(KC_UP);
+            }
         } else {
-            tap_code(KC_PGDN);
+            //tap_code(KC_PGDN);
+            for(int i = 0; i < 12; i++) {
+                tap_code(KC_DOWN);
+            }
         }
     }
 
