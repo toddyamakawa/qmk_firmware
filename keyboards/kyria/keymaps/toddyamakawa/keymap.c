@@ -50,35 +50,32 @@
 #define OS_ALT OSM(MOD_LALT)
 #define OS_GUI OSM(MOD_LGUI)
 
+// Examples
+// - KC_LCTL
+// - LT(_NUMBER, KC_ENT)
+// - LT(_NUMBER, KC_DEL)
+// - LT(_NUMBER, KC_PGUP)
+// - LT(_NUMBER, KC_DEL)
+// - MT(MOD_LCTL, KC_BSPC)
+// - MT(MOD_LCTL, KC_ESC)
+// - MT(MOD_LALT, KC_ENT)
 
 #define THUM_L1 MO(_LEFT)
-//#define THUM_L1 MT(MOD_LCTL, KC_ESC)
 #define THUM_L2 MO(_NUMBER)
-//#define THUM_L2 KC_ENT
-//#define THUM_L2 LT(_NUMBER, KC_ENT)
-//#define THUM_L2 MT(MOD_LALT, KC_ENT)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
-//#define THUM_L3 LT(_NUMBER, KC_DEL)
 #define THUM_L4 KC_DEL
 #define THUM_L5 KC_SLCK
 #define THUM_L6 KC_LCTL
-//#define THUM_L6 LT(_RAISE, KC_PGDN)
 #define THUM_L7 KC_LSFT
-//#define THUM_L7 LT(_NUMBER, KC_PGUP)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
 #define THUM_R3 MO(_RIGHT)
-//#define THUM_R3 LT(_RAISE, KC_DEL)
-//#define THUM_R3 LT(_NUMBER, KC_DEL)
 #define THUM_R4 MT(MOD_RGUI, KC_TAB)
 #define THUM_R5 KC_MUTE
-//#define THUM_R6 LT(_RAISE, KC_HOME)
 #define THUM_R6 MO(_NUMBER)
 #define THUM_R7 LT(_NUMBER, KC_END)
 
 #define PINK_L1 KC_TAB
-//#define PINK_L2 MT(MOD_LCTL, KC_BSPC)
-//#define PINK_L2 TO(_RAISE)
 #define PINK_L2 VIM_ESC
 #define PINK_L3 KC_LSFT
 #define PINK_R1 _______
@@ -88,7 +85,6 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
-    _RAISE,
     _ADJUST,
     _LEFT,
     _RIGHT
@@ -181,10 +177,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │   "   │
 // │  VIM  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │ RAISE │  │ RAISE │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
+// │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │       │  │       │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
 // │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ SHIFT │       │ RAISE │       │ SCROLL│
+//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ SHIFT │       │       │       │ SCROLL│
 //                         │  MUTE │       │  DEL  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
@@ -320,9 +316,6 @@ static void render_status(void) {
             break;
         case _NUMBER:
             oled_write_P(PSTR("Number\n"), false);
-            break;
-        case _RAISE:
-            oled_write_P(PSTR("Raise\n"), false);
             break;
         case _ADJUST:
             oled_write_P(PSTR("Adjust\n"), false);
