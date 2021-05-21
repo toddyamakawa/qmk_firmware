@@ -56,7 +56,8 @@
 #define THUM_L1 MO(_LEFT)
 #define THUM_L2 MO(_NUMBER)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
-#define THUM_L4 KC_DEL
+#define THUM_L4 KEY_ENABLE_MOD
+//#define THUM_L4 KC_DEL
 #define THUM_L5 KC_SLCK
 #define THUM_L6 KC_LCTL
 #define THUM_L7 KC_LSFT
@@ -89,12 +90,16 @@ enum combos {
 };
 
 typedef enum {
-    MOD_SHIFT = 0b0001,
-    MOD_CTRL  = 0b0010,
-    MOD_ALT   = 0b0100,
-    MOD_GUI   = 0b1000
+    MOD_SHIFT  = 0b00001,
+    MOD_CTRL   = 0b00010,
+    MOD_ALT    = 0b00100,
+    MOD_GUI    = 0b01000,
+    MOD_ENABLE = 0b10000
 } modifier_t;
 
+modifier_t get_modifiers(void);
+bool process_mod_key(uint16_t keycode, keyrecord_t *record);
+static modifier_t mod_enable;
 void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier);
 
 
@@ -126,6 +131,8 @@ enum custom_keycodes {
     MY_COPY,
     MY_PSTE,
     KEY_HOLD_S,
+
+    KEY_ENABLE_MOD,
 };
 
 static vim_state_t vim = {false, false, false, false, VIM_NONE};
@@ -288,7 +295,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    [_RGB] =LAYOUT(
+    [_RGB] = LAYOUT(
     _______,RGB_M_SW,RGB_M_R,RGB_M_B,RGB_M_P,RGB_M_SN,                                 RGB_TOG,RGB_M_T,RGB_M_G,RGB_M_X,RGB_M_K,_______,
     _______,RGB_SAD,RGB_VAD,RGB_SPD,RGB_HUD,RGB_RMOD,                                  RGB_MOD,RGB_HUI,RGB_SPI,RGB_VAI,RGB_SAI,_______,
     _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
@@ -405,6 +412,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
     }
 
+    if(!process_mod_key(keycode, record)) return false;
+
     if(vim.enabled)
         return process_vim_key(keycode, record);
 
@@ -425,16 +434,42 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
+bool process_mod_key(uint16_t keycode, keyrecord_t *record) {
+    if(keycode == KEY_ENABLE_MOD) {
+        if(record->event.pressed) {
+            mod_enable = MOD_ENABLE;
+        }
+        else {
+            mod_enable = 0;
+        }
+        return false;
+    }
+    if(!(mod_enable & MOD_ENABLE)) return true;
+
+    if(mod_enable == MOD_ENABLE) {
+        switch(keycode) {
+            case KC_Z:
+            case KC_X:
+            case KC_C:
+            case KC_V:
+                if(record->event.pressed) {
+                    tap_code16(LCTL(keycode));
+                }
+                return false;
+        }
+    }
+
+    return true;
+}
+
 
 // TODO: Add process_mod_key() function
 // Basically it will hold down any mod keys until the special key is released.
 
 
 bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
+    // TODO: Add this later
     return true;
-
-// TODO: Add this later
-#ifdef USE_VIM
 
     // Nothing fancy in here
     if(!record->event.pressed) return true;
@@ -450,7 +485,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
             if(vim.visual) {
                 vim.visual = false;
                 if(keycode == KC_C)
-                    LCTL(KC_X);
+                    tap_code16(LCTL(KC_X));
             }
             if(keycode == KC_A) {
                 tap_code(KC_RIGHT);
@@ -493,14 +528,14 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
                 vim.visual = false;
                 RELEASE_SHIFT();
             }
-            LCTL(KC_V);
+            tap_code16(LCTL(KC_V));
             break;
 
         // Copy
         case KC_Y:
             if(vim.visual) {
                 vim.visual = false;
-                LCTL(KC_C);
+                tap_code16(LCTL(KC_C));
             }
             else {
                 // TODO: Implement
@@ -511,7 +546,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_X:
             if(vim.visual) {
                 vim.visual = false;
-                LCTL(KC_X);
+                tap_code16(LCTL(KC_X));
             }
             else {
                 tap_code(KC_DEL);
@@ -520,7 +555,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_D:
             if(vim.visual) {
                 vim.visual = false;
-                LCTL(KC_X);
+                tap_code16(LCTL(KC_X));
             }
             else {
                 // TODO: Implement
@@ -539,7 +574,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
 
         // Undo
         case KC_U:
-            LCTL(KC_Z);
+            tap_code16(LCTL(KC_Z));
             break;
 
         // Escape
@@ -552,7 +587,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
 
         // Find
         case KC_SLSH:
-            LCTL(KC_F);
+            tap_code16(LCTL(KC_F));
             break;
         case KC_N:
             tap_code(KC_F3);
@@ -564,7 +599,19 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
     vim.go = vim.set_go;
     vim.set_go = false;
     return false;
-#endif
+}
+
+modifier_t get_modifiers(void) {
+	modifier_t mod_state;
+	uint8_t qmk_mod_state;
+	qmk_mod_state = get_mods();
+
+	if(qmk_mod_state & MOD_MASK_SHIFT) mod_state |= MOD_SHIFT;
+	if(qmk_mod_state & MOD_MASK_CTRL)  mod_state |= MOD_CTRL;
+	if(qmk_mod_state & MOD_MASK_ALT)   mod_state |= MOD_ALT;
+	if(qmk_mod_state & MOD_MASK_GUI)   mod_state |= MOD_GUI;
+	mod_state |= mod_enable | MOD_ENABLE;
+	return mod_state;
 }
 
 void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
