@@ -29,13 +29,6 @@
 #define HOLD_GUI()        register_mods(MOD_BIT(KC_LGUI))
 #define RELEASE_GUI()   unregister_mods(MOD_BIT(KC_LGUI))
 
-#define CTRL_TAP(kc) { \
-    register_mods(MOD_BIT(KC_LCTRL)); \
-    tap_code(kc); \
-    unregister_mods(MOD_BIT(KC_LCTRL)); \
-}
-
-
 // Idea from: https://github.com/winterNebs/qmk_firmware/blob/master/users/winternebs/winternebs.h
 #define _______________QWERTY_L1_______________ KC_Q, KC_W, KC_E   , KC_R  , KC_T
 #define _______________QWERTY_L2_______________ KC_A, KC_S, KC_D   , KC_F  , KC_G
@@ -161,6 +154,22 @@ combo_t key_combos[COMBO_COUNT] = {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+// ====================================================================================================================================
+// BLANK
+// ====================================================================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
 //  _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
 //  _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
 //  _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
@@ -285,23 +294,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
-
-// ====================================================================================================================================
-// BLANK
-// ====================================================================================================================================
-// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
 };
 
 #ifdef OLED_DRIVER_ENABLE
@@ -378,7 +370,6 @@ void oled_task_user(void) {
 // =============================================================================
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
-
         case MY_UNDO:
             if(record->event.pressed) {
                 tap_code16(LCTL(KC_Z));
@@ -440,8 +431,10 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 
 
 bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
-    // TODO: Add this later
     return true;
+
+// TODO: Add this later
+#ifdef USE_VIM
 
     // Nothing fancy in here
     if(!record->event.pressed) return true;
@@ -457,7 +450,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
             if(vim.visual) {
                 vim.visual = false;
                 if(keycode == KC_C)
-                    CTRL_TAP(KC_X);
+                    LCTL(KC_X);
             }
             if(keycode == KC_A) {
                 tap_code(KC_RIGHT);
@@ -500,14 +493,14 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
                 vim.visual = false;
                 RELEASE_SHIFT();
             }
-            CTRL_TAP(KC_V);
+            LCTL(KC_V);
             break;
 
         // Copy
         case KC_Y:
             if(vim.visual) {
                 vim.visual = false;
-                CTRL_TAP(KC_C);
+                LCTL(KC_C);
             }
             else {
                 // TODO: Implement
@@ -518,7 +511,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_X:
             if(vim.visual) {
                 vim.visual = false;
-                CTRL_TAP(KC_X);
+                LCTL(KC_X);
             }
             else {
                 tap_code(KC_DEL);
@@ -527,7 +520,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
         case KC_D:
             if(vim.visual) {
                 vim.visual = false;
-                CTRL_TAP(KC_X);
+                LCTL(KC_X);
             }
             else {
                 // TODO: Implement
@@ -546,7 +539,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
 
         // Undo
         case KC_U:
-            CTRL_TAP(KC_Z);
+            LCTL(KC_Z);
             break;
 
         // Escape
@@ -559,7 +552,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
 
         // Find
         case KC_SLSH:
-            CTRL_TAP(KC_F);
+            LCTL(KC_F);
             break;
         case KC_N:
             tap_code(KC_F3);
@@ -571,6 +564,7 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
     vim.go = vim.set_go;
     vim.set_go = false;
     return false;
+#endif
 }
 
 void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
