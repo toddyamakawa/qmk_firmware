@@ -435,15 +435,22 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 }
 
 bool process_mod_key(uint16_t keycode, keyrecord_t *record) {
+
+    // Check mod key
     if(keycode == KEY_ENABLE_MOD) {
         if(record->event.pressed) {
             mod_enable = MOD_ENABLE;
         }
         else {
+            if(mod_enable & MOD_GUI  ) RELEASE_GUI();
+            if(mod_enable & MOD_ALT  ) RELEASE_ALT();
+            if(mod_enable & MOD_CTRL ) RELEASE_CTRL();
+            if(mod_enable & MOD_SHIFT) RELEASE_SHIFT();
             mod_enable = 0;
         }
         return false;
     }
+
     if(!(mod_enable & MOD_ENABLE)) return true;
 
     if(mod_enable == MOD_ENABLE) {
@@ -454,6 +461,31 @@ bool process_mod_key(uint16_t keycode, keyrecord_t *record) {
             case KC_V:
                 if(record->event.pressed) {
                     tap_code16(LCTL(keycode));
+                }
+                return false;
+
+            case KC_F:
+                if(record->event.pressed) {
+                    HOLD_CTRL();
+                    mod_enable |= MOD_CTRL;
+                }
+                return false;
+            case KC_D:
+                if(record->event.pressed) {
+                    HOLD_ALT();
+                    mod_enable |= MOD_ALT;
+                }
+                return false;
+            case KC_S:
+                if(record->event.pressed) {
+                    HOLD_GUI();
+                    mod_enable |= MOD_GUI;
+                }
+                return false;
+            case KC_A:
+                if(record->event.pressed) {
+                    HOLD_SHIFT();
+                    mod_enable |= MOD_SHIFT;
                 }
                 return false;
         }
