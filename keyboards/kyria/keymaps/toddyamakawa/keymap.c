@@ -72,9 +72,9 @@
 #define PINK_L1 KC_TAB
 #define PINK_L2 VIM_ESC
 #define PINK_L3 KC_LSFT
-#define PINK_R1 LGUI(KC_L)
+#define PINK_R1 _______
 #define PINK_R2 KC_QUOT
-#define PINK_R3 _______
+#define PINK_R3 LGUI(KC_L)
 
 enum layers {
     _QWERTY = 0,
@@ -86,7 +86,17 @@ enum layers {
 
 enum combos {
     COMBO_QWER,
-	COMBO_CTRL
+	COMBO_MOD_AS,
+	COMBO_MOD_AD,
+	COMBO_MOD_AF,
+	COMBO_MOD_SD,
+	COMBO_MOD_SF,
+	COMBO_MOD_DF,
+	COMBO_MOD_ASD,
+	COMBO_MOD_ASF,
+	COMBO_MOD_ADF,
+	COMBO_MOD_SDF,
+	COMBO_MOD_ASDF
 };
 
 typedef enum {
@@ -149,8 +159,8 @@ enum combo_events {
 const uint16_t PROGMEM qwer_combo[] = {KC_Q, KC_W, KC_E, KC_R, COMBO_END};
 const uint16_t PROGMEM ctrl_combo[] = {KC_SPC, KC_F, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
-    [COMBO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW),
-    [COMBO_CTRL] = COMBO(ctrl_combo, KC_LCTL)
+    [COMBO_QWER] = COMBO(qwer_combo, COMBO_SELECT_ROW)
+    //[COMBO_CTRL] = COMBO(ctrl_combo, KC_LCTL)
 };
 
 //const uint16_t PROGMEM control[] = {KC_DEL, KC_F, COMBO_END};
@@ -266,9 +276,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUMBER] = LAYOUT(
     _______,KC_LT  ,KC_LBRC,KC_LCBR,KC_LPRN,KC_QUOT,                                   KC_DQUO,KC_RPRN,KC_RCBR,KC_RBRC,KC_GT  ,_______,
     _______,KC_4   ,KC_3   ,KC_2   ,KC_1   ,KC_5   ,                                   KC_6   ,KC_0   ,KC_9   ,KC_8   ,KC_7   ,_______,
-    _______,KC_TILD, KC_GRV,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
+    _______,KC_TILD,KC_GRV ,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
+
+    // TODO: Experiment with a number/nav hybrid layer
+    //[_NUMBER] = LAYOUT(
+    //_______,KC_ESC ,KC_6   ,KC_5   ,KC_4   ,_______,                                   _______,_______,_______,_______,_______,_______,
+    //_______,KC_ENT ,KC_2   ,KC_1   ,KC_0   ,KC_3   ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
+    //_______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+    //                        _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    //),
 
 // Raise Layer: Number keys, media, navigation
 //  [_RAISE] = LAYOUT(
@@ -420,19 +438,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void process_combo_event(uint16_t combo_index, bool pressed) {
-    switch(combo_index) {
-        case COMBO_SELECT_ROW:
-            if(pressed) {
-                tap_code(KC_HOME);
-                HOLD_SHIFT();
-                tap_code(KC_END);
-                RELEASE_SHIFT();
-                //tap_code(KC_BSPC);
-            }
-            break;
-    }
-}
 
 bool process_mod_key(uint16_t keycode, keyrecord_t *record) {
 
@@ -657,6 +662,40 @@ void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
     if(modifier & MOD_CTRL ) RELEASE_CTRL();
     if(modifier & MOD_SHIFT) RELEASE_SHIFT();
 }
+
+
+// =============================================================================
+// COMBOS
+// =============================================================================
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if(!pressed) return;
+
+    switch(combo_index) {
+        case COMBO_SELECT_ROW:
+            tap_code(KC_HOME);
+            HOLD_SHIFT();
+            tap_code(KC_END);
+            RELEASE_SHIFT();
+            //tap_code(KC_BSPC);
+            break;
+    }
+}
+
+//void process_mod_combo(uint16_t combo_index, bool pressed) {
+//    if(!pressed) return;
+//
+//    switch(combo_index) {
+//        case COMBO_SELECT_ROW:
+//            tap_code(KC_HOME);
+//            HOLD_SHIFT();
+//            tap_code(KC_END);
+//            RELEASE_SHIFT();
+//            //tap_code(KC_BSPC);
+//            break;
+//        }
+//    }
+//}
+
 
 //uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 //    switch(keycode) {
