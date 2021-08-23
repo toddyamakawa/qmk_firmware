@@ -79,24 +79,25 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
-    _RGB,
     _LEFT,
-    _RIGHT
+    _RIGHT,
+    _LOL,
+    _RGB
 };
 
 enum combos {
     COMBO_QWER,
-	COMBO_MOD_AS,
-	COMBO_MOD_AD,
-	COMBO_MOD_AF,
-	COMBO_MOD_SD,
-	COMBO_MOD_SF,
-	COMBO_MOD_DF,
-	COMBO_MOD_ASD,
-	COMBO_MOD_ASF,
-	COMBO_MOD_ADF,
-	COMBO_MOD_SDF,
-	COMBO_MOD_ASDF
+    COMBO_MOD_AS,
+    COMBO_MOD_AD,
+    COMBO_MOD_AF,
+    COMBO_MOD_SD,
+    COMBO_MOD_SF,
+    COMBO_MOD_DF,
+    COMBO_MOD_ASD,
+    COMBO_MOD_ASF,
+    COMBO_MOD_ADF,
+    COMBO_MOD_SDF,
+    COMBO_MOD_ASDF
 };
 
 typedef enum {
@@ -236,6 +237,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
+// ====================================================================================================================================
+// LEAGUE OF LEGENDS
+// ====================================================================================================================================
+    [_LOL] = LAYOUT(
+    _______,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                                   _______,_______,_______,_______,_______,_______,
+    KC_TAB ,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T   ,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,KC_LALT,KC_SPC ,KC_LCTL,   _______,_______,_______,_______,_______
+    ),
 
 // ====================================================================================================================================
 // VIM MODE
@@ -350,6 +360,29 @@ static void render_qmk_logo(void) {
 }
 
 static void render_status(void) {
+    // Host Keyboard Layer Status
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            rgblight_enable_noeeprom();
+            rgblight_sethsv_noeeprom(HSV_RED);
+            break;
+            break;
+        case _NUMBER:
+            rgblight_enable_noeeprom();
+            rgblight_sethsv_noeeprom(HSV_BLUE);
+            break;
+        case _LEFT:
+            rgblight_enable_noeeprom();
+            rgblight_sethsv_noeeprom(HSV_GREEN);
+            break;
+        case _RIGHT:
+            rgblight_enable_noeeprom();
+            rgblight_sethsv_noeeprom(HSV_GREEN);
+            break;
+        default:
+            break;
+    }
+
     // TODO: Uncomment this to get more memory
     return;
 
@@ -639,16 +672,16 @@ bool process_vim_key(uint16_t keycode, keyrecord_t *record) {
 }
 
 modifier_t get_modifiers(void) {
-	modifier_t mod_state;
-	uint8_t qmk_mod_state;
-	qmk_mod_state = get_mods();
+    modifier_t mod_state;
+    uint8_t qmk_mod_state;
+    qmk_mod_state = get_mods();
 
-	if(qmk_mod_state & MOD_MASK_SHIFT) mod_state |= MOD_SHIFT;
-	if(qmk_mod_state & MOD_MASK_CTRL)  mod_state |= MOD_CTRL;
-	if(qmk_mod_state & MOD_MASK_ALT)   mod_state |= MOD_ALT;
-	if(qmk_mod_state & MOD_MASK_GUI)   mod_state |= MOD_GUI;
-	mod_state |= mod_enable | MOD_ENABLE;
-	return mod_state;
+    if(qmk_mod_state & MOD_MASK_SHIFT) mod_state |= MOD_SHIFT;
+    if(qmk_mod_state & MOD_MASK_CTRL)  mod_state |= MOD_CTRL;
+    if(qmk_mod_state & MOD_MASK_ALT)   mod_state |= MOD_ALT;
+    if(qmk_mod_state & MOD_MASK_GUI)   mod_state |= MOD_GUI;
+    mod_state |= mod_enable | MOD_ENABLE;
+    return mod_state;
 }
 
 void press_key(uint16_t keycode, keyrecord_t *record, modifier_t modifier) {
@@ -763,4 +796,6 @@ void encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 }
 #endif
+
+// vim: ts=4 et
 
