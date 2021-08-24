@@ -76,6 +76,9 @@
 #define PINK_R2 KC_QUOT
 #define PINK_R3 LGUI(KC_L)
 
+#define TO_LOL TO(_LOL)
+#define TO_QWER TO(_QWERTY)
+
 enum layers {
     _QWERTY = 0,
     _NUMBER,
@@ -204,11 +207,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │   "   │
 // │  VIM  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   Z   │   X   │   C   │   V   │   B   │ LOWER │       │  │       │ LOWER │   N   │   M   │   <   │   >   │   ?   │   _   │
-// │  NUM  │       │       │       │       │       │  PGUP │ PGDWN │  │  HOME │  END  │       │       │   ,   │   .   │   /   │   -   │
+// │       │   Z   │   X   │   C   │   V   │   B   │ SHIFT │  CTRL │  │ NUMBER│ NUMBER│   N   │   M   │   <   │   >   │   ?   │   _   │
+// │  NUM  │       │       │       │       │       │       │       │  │       │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │  VOL  │  GUI  │ LOWER │  ALT  │  CTRL │  │ SHIFT │       │       │       │ SCROLL│
-//                         │  MUTE │       │  DEL  │ ENTER │  ESC  │  │ BKSPC │ SPACE │  DEL  │  TAB  │SCRLOCK│
+//                         │ SCROLL│  MOD  │ RIGHT │ NUMBER│  LEFT │  │ SHIFT │       │ RIGHT │  RGB  │  VOL  │
+//                         │SCRLOCK│       │  DEL  │       │       │  │ BKSPC │ SPACE │       │       │  MUTE │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
     // TODO: Figure out why this doesn't work
@@ -226,7 +229,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //_______,OS_SFT ,OS_GUI ,OS_ALT ,OS_CTL ,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
   //_______,KC_LSFT,KC_LGUI,KC_LALT,KC_LCTL,KC_ENT ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
     _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    _______,MY_UNDO,MY_CUT ,MY_COPY,MY_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
+    TO_LOL ,MY_UNDO,MY_CUT ,MY_COPY,MY_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
@@ -243,8 +246,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOL] = LAYOUT(
     _______,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                                   _______,_______,_______,_______,_______,_______,
     KC_TAB ,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T   ,                                   _______,_______,_______,_______,_______,_______,
-    _______,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
-                            _______,_______,KC_LALT,KC_SPC ,KC_LCTL,   _______,_______,_______,_______,_______
+    KC_Z   ,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,TO_QWER,KC_LALT,KC_SPC ,KC_LCTL,   _______,_______,_______,_______,_______
     ),
 
 // ====================================================================================================================================
