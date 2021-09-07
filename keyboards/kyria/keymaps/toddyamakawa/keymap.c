@@ -382,6 +382,10 @@ static void render_status(void) {
             rgblight_enable_noeeprom();
             rgblight_sethsv_noeeprom(HSV_GREEN);
             break;
+        case _LOL:
+            rgblight_enable_noeeprom();
+            rgblight_sethsv_noeeprom(HSV_PURPLE);
+            break;
         default:
             break;
     }
