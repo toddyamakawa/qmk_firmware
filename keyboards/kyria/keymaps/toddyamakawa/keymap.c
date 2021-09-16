@@ -54,6 +54,7 @@
 // - MT(MOD_LALT, KC_ENT)
 
 #define THUM_L1 MO(_LEFT)
+//#define THUM_L1 MO(_NUMBER_LEFT)
 #define THUM_L2 MO(_NUMBER)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 #define THUM_L4 KEY_ENABLE_MOD
@@ -82,6 +83,7 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
+    _NUMBER_LEFT,
     _LEFT,
     _RIGHT,
     _LOL,
@@ -294,12 +296,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     // TODO: Experiment with a number/nav hybrid layer
-    //[_NUMBER] = LAYOUT(
-    //_______,KC_ESC ,KC_6   ,KC_5   ,KC_4   ,_______,                                   _______,_______,_______,_______,_______,_______,
-    //_______,KC_ENT ,KC_2   ,KC_1   ,KC_0   ,KC_3   ,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    //_______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
-    //                        _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-    //),
+    [_NUMBER_LEFT] = LAYOUT(
+    _______,_______,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,_______,
+    _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,_______,
+    _______,_______,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    ),
 
 // Raise Layer: Number keys, media, navigation
 //  [_RAISE] = LAYOUT(
@@ -327,11 +329,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_RGB] = LAYOUT(
-    _______,RGB_M_SW,RGB_M_R,RGB_M_B,RGB_M_P,RGB_M_SN,                                 RGB_TOG,RGB_M_T,RGB_M_G,RGB_M_X,RGB_M_K,_______,
-    _______,RGB_SAD,RGB_VAD,RGB_SPD,RGB_HUD,RGB_RMOD,                                  RGB_MOD,RGB_HUI,RGB_SPI,RGB_VAI,RGB_SAI,_______,
-    _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+    _______,_______,RGB_M_T,RGB_M_G,RGB_M_X,_______,                                   _______,RGB_VAI,RGB_VAD,_______,_______,_______,
+    _______,RGB_TOG,RGB_M_R,RGB_M_B,RGB_M_P,_______,                                   _______,RGB_HUI,RGB_HUD,RGB_MOD,RGB_RMOD,_______,
+    _______,_______,RGB_M_K,RGB_M_SN,RGB_M_SW,_______,_______,_______, _______,_______,_______,RGB_SPI,RGB_SPD,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
+    //[_RGB] = LAYOUT(
+    //_______,RGB_M_SW,RGB_M_R,RGB_M_B,RGB_M_P,RGB_M_SN,                                 RGB_TOG,RGB_M_T,RGB_M_G,RGB_M_X,RGB_M_K,_______,
+    //_______,RGB_SAD,RGB_VAD,RGB_SPD,RGB_HUD,RGB_RMOD,                                  RGB_MOD,RGB_HUI,RGB_SPI,RGB_VAI,RGB_SAI,_______,
+    //_______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+    //                        _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    //),
 };
 
 #ifdef OLED_DRIVER_ENABLE
