@@ -54,8 +54,8 @@
 // - MT(MOD_LALT, KC_ENT)
 
 #define THUM_L1 MO(_LEFT)
-//#define THUM_L1 MO(_NUMBER_LEFT)
-#define THUM_L2 MO(_NUMBER)
+//#define THUM_L2 MO(_NUMBER)
+#define THUM_L2 MO(_NUMBER_TEST)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 #define THUM_L4 KEY_ENABLE_MOD
 //#define THUM_L4 KC_DEL
@@ -83,7 +83,7 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
-    _NUMBER_LEFT,
+    _NUMBER_TEST,
     _LEFT,
     _RIGHT,
     _LOL,
@@ -297,23 +297,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │   (   │   *   │   &   │       │                                  │       │       │       │       │       │       │
-// │       │   ~   │   9   │   8   │   7   │       │                                  │       │   (   │   )   │   \   │   |   │       │
+// │       │   ~   │   9   │   8   │   7   │       │                                  │       │   (   │   )   │   \   │   |   │SCRLLCK│
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   )   │   #   │   @   │   !   │       │                                  │       │       │       │       │       │       │
-// │       │   0   │   3   │   2   │   1   │       │                                  │       │   {   │   }   │   -   │   _   │       │
+// │       │   0   │   3   │   2   │   1   │       │                                  │       │   {   │   }   │   -   │   _   │CAPSLCK│
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │   ^   │   %   │   $   │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │   `   │   6   │   5   │   4   │       │       │       │  │       │       │       │   [   │   ]   │   =   │   +   │       │
+// │       │   `   │   6   │   5   │   4   │       │       │       │  │       │       │       │   [   │   ]   │   =   │   +   │NUMLOCK│
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     // TODO: Experiment with a number/nav hybrid layer
-    [_NUMBER_LEFT] = LAYOUT(
-    _______,_______,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,_______,
-    _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,_______,
-    _______,_______,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,_______,
-                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    [_NUMBER_TEST] = LAYOUT(
+    _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,KC_SLCK,
+    _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,KC_CLCK,
+    _______,KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,KC_NLCK,
+                            _______,_______,_______,_______,_______,   KC_LSFT,KC_LCTL,KC_LALT,_______,_______
     ),
 
 // Raise Layer: Number keys, media, navigation
@@ -323,6 +323,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    _______, _______, _______, _______, KC_MUTE, KC_VOLD, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
 //                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //  ),
+
+// TESmart 4x2 KVM Keyboard Shortcuts
+// - SL = Scroll Lock.
+// - SL+SL+F1: Switches Scroll Lock to Right Control. (Good for Mac users that don't have a Scroll Lock key.)
+// - R-Ctrl + R-Ctrl + F1: Switches Right Control to Scroll Lock.
+// - SL+SL+F2: Toggle keyboard/mouse "pass through" mode.
+// - SL+SL+F3: Beeps once if keyboard/mouse is in emulation mode and twice for pass through mode.
+// - SL+SL+F11: Toggle buzzer.
+// - Display Mode 1.
+//   - SL+SL+1: Select input source 1.
+//   - SL+SL+2: Select input source 2.
+// - Display Mode 2.
+//   - R-Alt + R-Alt: Change active computer.
+//   - SL+SL+3: Focus on input source 1.
+//   - SL+SL+4: Focus on input source 2.
 
 
 // ====================================================================================================================================
@@ -386,6 +401,7 @@ static void render_status(void) {
             break;
             break;
         case _NUMBER:
+        case _NUMBER_TEST:
             rgblight_enable_noeeprom();
             rgblight_sethsv_noeeprom(HSV_BLUE);
             break;
