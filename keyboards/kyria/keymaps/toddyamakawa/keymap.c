@@ -77,8 +77,16 @@
 #define PINK_R2 KC_QUOT
 #define PINK_R3 LGUI(KC_L)
 
-#define TO_LOL TO(_LOL)
+// LOL
+#define TO_LOL  TO(_LOL)
+#define MO_LOL2 MO(_LOL2)
 #define TO_QWER TO(_QWERTY)
+
+#define CTRL_Q LCTL(KC_Q)
+#define CTRL_W LCTL(KC_W)
+#define CTRL_E LCTL(KC_E)
+#define CTRL_R LCTL(KC_R)
+
 
 enum layers {
     _QWERTY = 0,
@@ -87,6 +95,7 @@ enum layers {
     _LEFT,
     _RIGHT,
     _LOL,
+    _LOL2,
     _RGB
 };
 
@@ -249,7 +258,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                                   _______,_______,_______,_______,_______,_______,
     KC_TAB ,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_G   ,                                   _______,_______,_______,_______,_______,_______,
     KC_Z   ,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_V   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,KC_P   ,
-                            _______,TO_QWER,KC_LALT,KC_SPC ,KC_LCTL,   _______,_______,_______,_______,_______
+                            _______,_______,KC_LALT,KC_SPC ,MO_LOL2,  _______,_______,_______,_______,_______
+    ),
+    [_LOL2] = LAYOUT(
+    _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,CTRL_Q ,CTRL_W ,CTRL_E ,CTRL_R ,_______,                                   _______,_______,_______,_______,_______,_______,
+    TO_QWER,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
 // ====================================================================================================================================
@@ -826,9 +841,9 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     // Right knob
     else if (index == 1) {
         if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
             tap_code(KC_VOLD);
+        } else {
+            tap_code(KC_VOLU);
         }
     }
 #endif
