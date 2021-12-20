@@ -803,7 +803,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 
 #ifdef ENCODER_ENABLE
 //#define ENCODER_MOUSE
-void encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool clockwise) {
 #ifdef ENCODER_MOUSE
     // Left knob
     if (index == 0) {
@@ -847,6 +847,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
         }
     }
 #endif
+    return false;
 }
 #endif
 

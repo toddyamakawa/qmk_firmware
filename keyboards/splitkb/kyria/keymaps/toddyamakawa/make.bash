@@ -6,6 +6,7 @@ which qmk || exit $?
 qmk_firmware="$HOME/qmk_firmware"
 
 keymap='toddyamakawa'
+#keymap='default'
 build="$qmk_firmware/.build"
 
 qmk compile -kb kyria -km "$keymap" || exit $?

@@ -57,3 +57,28 @@
 
 #define ONESHOT_TAP_TOGGLE 1
 
+// Trying to save space
+// These do save space
+#define NO_ACTION_ONESHOT
+#define NO_ACTION_TAPPING
+
+// These do not appear to save space
+#undef TAP_DANCE_ENABLE
+#undef TERMINAL_ENABLE
+#undef UCIS_ENABLE
+#undef UNICODE_ENABLE
+#undef UNICODEMAP_ENABLE
+#undef MOUSEKEY_ENABLE
+#undef OLED_DRIVER_ENABLE
+
+#ifndef NO_DEBUG
+#define NO_DEBUG
+#endif
+
+#ifndef NO_PRINT
+#define NO_PRINT
+#endif
+
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
+
