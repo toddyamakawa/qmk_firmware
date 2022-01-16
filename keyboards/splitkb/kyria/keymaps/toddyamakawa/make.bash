@@ -9,10 +9,11 @@ keymap='toddyamakawa'
 #keymap='default'
 build="$qmk_firmware/.build"
 
-qmk compile -kb kyria -km "$keymap" || exit $?
+qmk compile -kb splitkb/kyria -km "$keymap" || exit $?
 #qmk compile -kb kyria -km default
 
-hexfile="$build/kyria_rev1_$keymap.hex"
+#hexfile="$build/kyria_rev1_$keymap.hex"
+hexfile="$build/splitkb_kyria_rev1_$keymap.hex"
 dest="$HOME/.config/links/downloads"
 
 echo
