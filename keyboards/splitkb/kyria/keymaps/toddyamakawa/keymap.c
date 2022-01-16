@@ -31,7 +31,7 @@
 // - MT(MOD_LALT, KC_ENT)
 
 #define THUM_L1 MO(_LEFT)
-#define THUM_L2 MO(_NUMBER_TEST)
+#define THUM_L2 MO(_NUMBER)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 //#define THUM_L4 KEY_ENABLE_MOD
 #define THUM_L4 _______
@@ -53,6 +53,11 @@
 #define PINK_R2 KC_QUOT
 #define PINK_R3 LGUI(KC_L)
 
+#define CTRL_V LCTL(KC_V)
+#define CTRL_C LCTL(KC_C)
+#define CTRL_X LCTL(KC_X)
+#define CTRL_Z LCTL(KC_Z)
+
 // League of Legends
 #define TO_LOL  TO(_LOL)
 #define MO_LOL2 MO(_LOL2)
@@ -61,7 +66,6 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
-    _NUMBER_TEST,
     _LEFT,
     _RIGHT,
     _LOL,
@@ -123,8 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LEFT] = LAYOUT(
     KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
     _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    //TO_LOL ,MY_UNDO,MY_CUT ,MY_COPY,MY_PSTE,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
-    _______,_______,_______,_______,_______,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
+    _______,CTRL_Z ,CTRL_X ,CTRL_C ,CTRL_V ,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
 
@@ -146,47 +149,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 // ====================================================================================================================================
-// VIM MODE
+// NUMBER
 // ====================================================================================================================================
-// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  ESC  │  C-→  │  C-→  │       │       │                                  │  C-c  │  C-z  │  <I>  │NEWLINE│ PASTE │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  <A>  │  <S>  │  DEL  │       │  GOTO │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │       │  DEL  │  <C>  │<SHIFT>│  C-←  │       │       │  │       │       │  <F3> │       │       │       │  C-F  │       │
-// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-
-
-// ====================================================================================================================================
-// LOWER LAYER: NUMBER ROW
-// ====================================================================================================================================
-// Number row layout from: https://youtu.be/yiwUjLaebuw?t=185
-// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │   <   │   [   │   {   │   (   │   '   │                                  │   "   │   )   │   }   │   ]   │   >   │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   $   │   #   │   @   │   !   │   %   │                                  │   ^   │   )   │   (   │   *   │   &   │       │
-// │       │   4   │   3   │   2   │   1   │   5   │                                  │   6   │   0   │   9   │   8   │   7   │       │
-// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │   ~   │   `   │   \   │   |   │       │       │       │  │       │       │       │   -   │   _   │   =   │   +   │       │
-// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         │       │       │       │       │       │  │       │       │       │       │       │
-//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    [_NUMBER] = LAYOUT(
-    _______,KC_LT  ,KC_LBRC,KC_LCBR,KC_LPRN,KC_QUOT,                                   KC_DQUO,KC_RPRN,KC_RCBR,KC_RBRC,KC_GT  ,_______,
-    _______,KC_4   ,KC_3   ,KC_2   ,KC_1   ,KC_5   ,                                   KC_6   ,KC_0   ,KC_9   ,KC_8   ,KC_7   ,_______,
-    _______,KC_TILD,KC_GRV ,KC_BSLS,KC_PIPE,_______,_______,_______,   _______,_______,_______,KC_MINS,KC_UNDS, KC_EQL,KC_PLUS,_______,
-                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-    ),
-
+// Left-handed number pad.
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │   (   │   *   │   &   │       │                                  │       │       │       │       │       │       │
 // │       │   ~   │   9   │   8   │   7   │       │                                  │       │   (   │   )   │   \   │   |   │SCRLLCK│
@@ -201,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     // TODO: Experiment with a number/nav hybrid layer
-    [_NUMBER_TEST] = LAYOUT(
+    [_NUMBER] = LAYOUT(
     _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,KC_SLCK,
     _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,KC_CLCK,
     _______,KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,KC_NLCK,
@@ -256,16 +221,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-
-
-
-/* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
- * These default settings can be overriden by your own settings in your keymap.c
- * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
- * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
- */
-
-/* DELETE THIS LINE TO UNCOMMENT (1/2)
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
 
@@ -288,23 +243,20 @@ bool oled_task_user(void) {
             case _QWERTY:
                 oled_write_P(PSTR("QWERTY\n"), false);
                 break;
-            case _DVORAK:
-                oled_write_P(PSTR("Dvorak\n"), false);
+            case _NUMBER:
+                oled_write_P(PSTR("NUMBER\n"), false);
                 break;
-            case _COLEMAK_DH:
-                oled_write_P(PSTR("Colemak-DH\n"), false);
+            case _LEFT:
+                oled_write_P(PSTR("LEFT\n"), false);
                 break;
-            case _NAV:
-                oled_write_P(PSTR("Nav\n"), false);
+            case _RIGHT:
+                oled_write_P(PSTR("RIGHT"), false);
                 break;
-            case _SYM:
-                oled_write_P(PSTR("Sym\n"), false);
+            case _LOL:
+                oled_write_P(PSTR("LOL"), false);
                 break;
-            case _FUNCTION:
-                oled_write_P(PSTR("Function\n"), false);
-                break;
-            case _ADJUST:
-                oled_write_P(PSTR("Adjust\n"), false);
+            case _RGB:
+                oled_write_P(PSTR("RGB"), false);
                 break;
             default:
                 oled_write_P(PSTR("Undefined\n"), false);
@@ -333,10 +285,6 @@ bool oled_task_user(void) {
     return false;
 }
 #endif
-
-
-#endif
-DELETE THIS LINE TO UNCOMMENT (2/2) */
 
 #ifdef ENCODER_ENABLE
 //#define ENCODER_MOUSE
