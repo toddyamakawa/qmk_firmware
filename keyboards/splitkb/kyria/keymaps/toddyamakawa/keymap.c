@@ -30,11 +30,12 @@
 // - MT(MOD_LCTL, KC_ESC)
 // - MT(MOD_LALT, KC_ENT)
 
-#define THUM_L1 MO(_LEFT)
+#define THUM_L1 MO(_NAV)
 #define THUM_L2 MO(_NUMBER)
 #define THUM_L3 LT(_RIGHT, KC_DEL)
 //#define THUM_L4 KEY_ENABLE_MOD
-#define THUM_L4 _______
+//#define THUM_L4 _______
+#define THUM_L4 MO(_FUNCTION)
 #define THUM_L5 KC_SLCK
 #define THUM_L6 KC_LCTL
 #define THUM_L7 KC_LSFT
@@ -53,8 +54,9 @@
 #define PINK_R2 KC_QUOT
 #define PINK_R3 LGUI(KC_L)
 
-#define CTRL_V LCTL(KC_V)
 #define CTRL_C LCTL(KC_C)
+#define CTRL_F LCTL(KC_F)
+#define CTRL_V LCTL(KC_V)
 #define CTRL_X LCTL(KC_X)
 #define CTRL_Z LCTL(KC_Z)
 
@@ -66,7 +68,8 @@
 enum layers {
     _QWERTY = 0,
     _NUMBER,
-    _LEFT,
+    _FUNCTION,
+    _NAV,
     _RIGHT,
     _LOL,
     _RGB
@@ -110,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   Z   │   X   │   C   │   V   │   B   │ SHIFT │  CTRL │  │ NUMBER│ NUMBER│   N   │   M   │   <   │   >   │   ?   │   _   │
 // │  NUM  │       │       │       │       │       │       │       │  │       │  END  │       │       │   ,   │   .   │   /   │   -   │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
-//                         │ SCROLL│  MOD  │ RIGHT │ NUMBER│  LEFT │  │ SHIFT │       │ RIGHT │  RGB  │  VOL  │
+//                         │ SCROLL│  MOD  │ RIGHT │ NUMBER│  NAV  │  │ SHIFT │       │ RIGHT │  RGB  │  VOL  │
 //                         │SCRLOCK│       │  DEL  │       │       │  │ BKSPC │ SPACE │       │       │  MUTE │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_QWERTY] = LAYOUT(
@@ -122,30 +125,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     PINK_L2,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                      KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN,PINK_R2,
     PINK_L3,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,   KC_N,   KC_M,KC_COMM, KC_DOT,KC_SLSH,PINK_R3,
                             THUM_L5,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
-    ),
-
-    [_LEFT] = LAYOUT(
-    KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
-    _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,_______,
-    _______,CTRL_Z ,CTRL_X ,CTRL_C ,CTRL_V ,KC_END ,_______,_______,   _______,_______,_______,KC_PGDN,KC_PGUP,_______,_______,_______,
-                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-    ),
-
-    [_RIGHT] = LAYOUT(
-    _______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,KC_MPRV,KC_MPLY,KC_MNXT,KC_F12 ,_______,
-    _______,KC_BTN1,KC_BTN3,KC_BTN2,KC_BTN1,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
-    _______,KC_F4  ,KC_F3  ,KC_F2  ,KC_F1  ,KC_F5  ,_______,_______,   _______,_______,KC_F6  ,KC_F10 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,
-                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
-    ),
-
-// ====================================================================================================================================
-// LEAGUE OF LEGENDS
-// ====================================================================================================================================
-    [_LOL] = LAYOUT(
-    KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_T   ,                                   _______,_______,_______,_______,_______,_______,
-    KC_TAB ,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_G   ,                                   _______,TO_QWER,_______,_______,_______,_______,
-    KC_Z   ,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_V   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,KC_P   ,
-                            _______,KC_LALT,KC_LALT,KC_SPC ,KC_LCTL,  _______,_______,_______,_______,_______
     ),
 
 // ====================================================================================================================================
@@ -165,7 +144,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    // TODO: Experiment with a number/nav hybrid layer
     [_NUMBER] = LAYOUT(
     _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,KC_SLCK,
     _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,KC_CLCK,
@@ -173,6 +151,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             _______,_______,_______,_______,_______,   KC_LSFT,KC_LCTL,KC_LALT,_______,_______
     ),
 
+// ====================================================================================================================================
+// FUNCTION
+// ====================================================================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │  F11  │   F9  │   F8  │   F7  │       │                                  │       │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │  F10  │   F3  │   F2  │   F1  │       │                                  │       │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// │       │  F12  │   F6  │   F5  │   F4  │       │       │       │  │       │       │       │       │       │       │       │       │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
+    [_FUNCTION] = LAYOUT(
+    _______,KC_F11 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_F10 ,KC_F3  ,KC_F2  ,KC_F1  ,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    ),
+
+// ====================================================================================================================================
+// NAVIGATE
+// ====================================================================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │  ESC  │  DEL  │  PGUP │  PGDN │       │                                  │       │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
+// │       │ ENTER │  GUI  │  ALT  │  CTRL │       │                                  │   ←   │   ↓   │   ↑   │   →   │       │       │
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
+// └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         │       │       │       │       │       │  │       │       │       │       │       │
+//                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
+    [_NAV] = LAYOUT(
+    KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
+    _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_TAB ,_______,
+    _______,CTRL_Z ,CTRL_X ,CTRL_C ,CTRL_V ,KC_END ,_______,_______,   KC_LCTL,_______,KC_HOME,KC_PGDN,KC_PGUP,KC_END ,CTRL_F ,_______,
+                            _______,_______,_______,_______,_______,   _______,KC_LCTL,KC_TAB ,_______,_______
+    ),
+
+    //[_RIGHT] = LAYOUT(
+    //_______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,KC_MPRV,KC_MPLY,KC_MNXT,KC_F12 ,_______,
+    //_______,KC_BTN1,KC_BTN3,KC_BTN2,KC_BTN1,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
+    //_______,KC_F4  ,KC_F3  ,KC_F2  ,KC_F1  ,KC_F5  ,_______,_______,   _______,_______,KC_F6  ,KC_F10 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,
+    //                        _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    //),
+    [_RIGHT] = LAYOUT(
+    _______,KC_F11 ,_______,KC_PGUP,KC_PGDN,_______,                                   _______,KC_MPRV,KC_MPLY,KC_MNXT,KC_F12 ,_______,
+    _______,KC_BTN1,KC_BTN3,KC_BTN2,KC_BTN1,_______,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
+    _______,KC_F4  ,KC_F3  ,KC_F2  ,KC_F1  ,KC_F5  ,_______,_______,   _______,_______,KC_F6  ,KC_F10 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    ),
+
+// TODO: Media layer
 // Raise Layer: Number keys, media, navigation
 //  [_RAISE] = LAYOUT(
 //    _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
@@ -181,21 +219,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //  ),
 
-// TESmart 4x2 KVM Keyboard Shortcuts
-// - SL = Scroll Lock.
-// - SL+SL+F1: Switches Scroll Lock to Right Control. (Good for Mac users that don't have a Scroll Lock key.)
-// - R-Ctrl + R-Ctrl + F1: Switches Right Control to Scroll Lock.
-// - SL+SL+F2: Toggle keyboard/mouse "pass through" mode.
-// - SL+SL+F3: Beeps once if keyboard/mouse is in emulation mode and twice for pass through mode.
-// - SL+SL+F11: Toggle buzzer.
-// - Display Mode 1.
-//   - SL+SL+1: Select input source 1.
-//   - SL+SL+2: Select input source 2.
-// - Display Mode 2.
-//   - R-Alt + R-Alt: Change active computer.
-//   - SL+SL+3: Focus on input source 1.
-//   - SL+SL+4: Focus on input source 2.
 
+// ====================================================================================================================================
+// LEAGUE OF LEGENDS
+// ====================================================================================================================================
+    [_LOL] = LAYOUT(
+    KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_T   ,                                   _______,_______,_______,_______,_______,_______,
+    KC_TAB ,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_G   ,                                   _______,TO_QWER,_______,_______,_______,_______,
+    KC_Z   ,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_V   ,KC_B   ,_______,   _______,_______,_______,_______,_______,_______,_______,KC_P   ,
+                            _______,KC_LALT,KC_LALT,KC_SPC ,KC_LCTL,  _______,_______,_______,_______,_______
+    ),
 
 // ====================================================================================================================================
 // RGB
@@ -246,8 +279,11 @@ bool oled_task_user(void) {
             case _NUMBER:
                 oled_write_P(PSTR("NUMBER\n"), false);
                 break;
-            case _LEFT:
-                oled_write_P(PSTR("LEFT\n"), false);
+            case _FUNCTION:
+                oled_write_P(PSTR("FUNCTION\n"), false);
+                break;
+            case _NAV:
+                oled_write_P(PSTR("NAVIGATE\n"), false);
                 break;
             case _RIGHT:
                 oled_write_P(PSTR("RIGHT"), false);
