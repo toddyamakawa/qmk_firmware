@@ -32,10 +32,12 @@
 
 #define THUM_L1 MO(_NAV)
 #define THUM_L2 MO(_NUMBER)
-#define THUM_L3 LT(_RIGHT, KC_DEL)
+//#define THUM_L3 LT(_RIGHT, KC_DEL)
+#define THUM_L3 LT(_FUNCTION, KC_DEL)
 //#define THUM_L4 KEY_ENABLE_MOD
 //#define THUM_L4 _______
-#define THUM_L4 MO(_FUNCTION)
+//#define THUM_L4 MO(_FUNCTION)
+#define THUM_L4 MO(_RIGHT)
 #define THUM_L5 KC_SLCK
 #define THUM_L6 KC_LCTL
 #define THUM_L7 KC_LSFT
@@ -187,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │  F11  │   F9  │   F8  │   F7  │SCRLLCK│                                  │       │       │       │       │       │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  F10  │   F3  │   F2  │   F1  │CAPSLCK│                                  │       │       │       │       │       │       │
+// │       │  F10  │   F3  │   F2  │   F1  │CAPSLCK│                                  │       │  CTRL │  ALT  │  GUI  │ SHIFT │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
 // │       │  F12  │   F6  │   F5  │   F4  │NUMLOCK│       │       │  │       │       │       │       │       │       │       │       │

@@ -16,6 +16,9 @@
 
 #pragma once
 
+// Turn my encoder once instead of twice for a tick
+#define ENCODER_RESOLUTION 2
+
 #ifdef RGBLIGHT_ENABLE
 #    define RGBLIGHT_ANIMATIONS
 #    define RGBLIGHT_HUE_STEP  8
