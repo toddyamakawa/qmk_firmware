@@ -30,7 +30,7 @@
 // - MT(MOD_LCTL, KC_ESC)
 // - MT(MOD_LALT, KC_ENT)
 
-#define THUM_L1 MO(_NAV)
+#define THUM_L1 MO(_NAVIGATE)
 #define THUM_L2 MO(_NUMBER)
 //#define THUM_L3 LT(_RIGHT, KC_DEL)
 #define THUM_L3 LT(_FUNCTION, KC_DEL)
@@ -43,7 +43,7 @@
 #define THUM_L7 KC_LSFT
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
-#define THUM_R3 MO(_RIGHT)
+#define THUM_R3 MO(_FUNCTION)
 #define THUM_R4 MO(_RGB)
 #define THUM_R5 KC_MUTE
 #define THUM_R6 MO(_NUMBER)
@@ -71,12 +71,15 @@
 #define QWERTY   DF(_QWERTY)
 #define COLEMAK  DF(_COLEMAK_DH)
 
+#define MO_FUNC MO(_FUNCTION)
+#define MO_NUM  MO(_NUMBER)
+
 enum layers {
     _QWERTY = 0,
     _COLEMAK_DH,
     _NUMBER,
     _FUNCTION,
-    _NAV,
+    _NAVIGATE,
     _RIGHT,
     _LOL,
     _RGB
@@ -178,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,_______,
     _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,_______,
     _______,KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,_______,
-                            _______,_______,_______,_______,_______,   _______,KC_LCTL,KC_LALT,_______,_______
+                            _______,_______,_______,_______,_______,   _______,_______,MO_FUNC,_______,_______
     ),
 
 // ====================================================================================================================================
@@ -186,31 +189,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ====================================================================================================================================
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  F11  │   F9  │   F8  │   F7  │SCRLLCK│                                  │       │       │       │       │       │       │
+// │       │  F11  │   F9  │   F8  │   F7  │       │                                  │       │       │SCRLLCK│CAPSLCK│NUMLOCK│       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  F10  │   F3  │   F2  │   F1  │CAPSLCK│                                  │       │  CTRL │  ALT  │  GUI  │ SHIFT │       │
+// │       │       │       │       │       │ PRINT │                                  │       │       │       │       │       │       │
+// │       │  F10  │   F3  │   F2  │   F1  │ SCREEN│                                  │       │  CTRL │  ALT  │  GUI  │ SHIFT │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │  F12  │   F6  │   F5  │   F4  │NUMLOCK│       │       │  │       │       │       │       │       │       │       │       │
+// │       │  F12  │   F6  │   F5  │   F4  │       │       │       │  │       │       │       │       │       │       │       │       │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_FUNCTION] = LAYOUT(
-    _______,KC_F11 ,KC_F9  ,KC_F8  ,KC_F7  ,KC_SLCK,                                   _______,_______,_______,_______,_______,_______,
-    _______,KC_F10 ,KC_F3  ,KC_F2  ,KC_F1  ,KC_CLCK,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
-    _______,KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,KC_NLCK,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
-                            _______,_______,_______,_______,_______,   _______,KC_LCTL,KC_LALT,_______,_______
+    _______,KC_F11 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,                                   _______,_______,KC_SLCK,KC_CLCK,KC_NLCK,_______,
+    _______,KC_F10 ,KC_F3  ,KC_F2  ,KC_F1  ,KC_PSCR,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
+    _______,KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,KC_LGUI,KC_LALT,KC_LCTL,   _______,KC_LCTL,KC_LALT,_______,_______
     ),
-
 
 // ====================================================================================================================================
 // NAVIGATE
 // ====================================================================================================================================
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
-// │       │  ESC  │  DEL  │  PGUP │  PGDN │       │                                  │       │       │       │       │       │       │
+// │       │  ESC  │  DEL  │  PGUP │  PGDN │       │                                  │       │       │ INSERT│       │       │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │       │                                  │       │       │       │       │       │       │
 // │       │ ENTER │  GUI  │  ALT  │  CTRL │       │                                  │   ←   │   ↓   │   ↑   │   →   │  TAB  │       │
@@ -221,9 +223,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
-    [_NAV] = LAYOUT(
-    KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,_______,_______,_______,_______,
-    _______,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_TAB ,_______,
+    [_NAVIGATE] = LAYOUT(
+    KC_TAB ,KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,                                   _______,_______,KC_INS ,_______,_______,_______,
+    KC_TAB ,KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,                                   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_TAB ,_______,
     _______,CTRL_Z ,CTRL_X ,CTRL_C ,CTRL_V ,KC_END ,_______,_______,   KC_LCTL,_______,KC_HOME,KC_PGDN,KC_PGUP,KC_END ,CTRL_F ,_______,
                             _______,_______,_______,_______,_______,   _______,KC_LCTL,KC_TAB ,_______,_______
     ),
@@ -316,7 +318,7 @@ bool oled_task_user(void) {
             case _FUNCTION:
                 oled_write_P(PSTR("FUNCTION\n"), false);
                 break;
-            case _NAV:
+            case _NAVIGATE:
                 oled_write_P(PSTR("NAVIGATE\n"), false);
                 break;
             case _RIGHT:
