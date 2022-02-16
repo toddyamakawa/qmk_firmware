@@ -30,8 +30,8 @@
 // - MT(MOD_LCTL, KC_ESC)
 // - MT(MOD_LALT, KC_ENT)
 
-//#define THUM_L1 MO(_NAVIGATE)
-#define THUM_L1 LT(_NAVIGATE, KC_TAB)
+#define THUM_L1 MO(_NAVIGATE)
+//#define THUM_L1 LT(_NAVIGATE, KC_TAB)
 #define THUM_L2 MO(_NUMBER)
 //#define THUM_L3 LT(_RIGHT, KC_DEL)
 #define THUM_L3 LT(_FUNCTION, KC_DEL)
