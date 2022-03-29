@@ -3,16 +3,16 @@
 #export PATH="$PATH:$qmk_bin"
 which qmk || exit $?
 
-qmk_firmware="$HOME/qmk_firmware"
-
 keymap='toddyamakawa'
 #keymap='default'
-build="$qmk_firmware/.build"
 
-qmk compile -kb boardsource/minidox -km "$keymap" || exit $?
+qmk compile -kb boardsource/microdox -km "$keymap" || exit $?
 
-hexfile="$build/boardsource_minidox_rev1_$keymap.hex"
+top="$(git top 2>/dev/null)"
+build="$top/.build"
+hexfile="$build/boardsource_microdox_$keymap.hex"
 dest="$HOME/.config/links/downloads"
+[[ -d "$HOME/Downloads" ]] && dest="$HOME/Downloads"
 
 echo
 echo "\$ cp "$hexfile" "$dest""
