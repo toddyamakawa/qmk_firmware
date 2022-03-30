@@ -14,10 +14,11 @@ enum layers {
 
 #define K_F_SPC LT(_FUNCTION, KC_SPC)
 #define LAY_CTL  MO(_CONTROL)
+#define LAY_FUN  MO(_FUNCTION)
 
 #define THUM_L1 MO(_NAVIGATE)
 #define THUM_L2 MO(_NUMBER)
-#define THUM_L3 MO(_CONTROL)
+#define THUM_L3 LAY_CTL
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
 #define THUM_R3 MO(_RGB)
@@ -32,6 +33,7 @@ enum layers {
 #define COLEMAK  DF(_COLEMAK_DH)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
 // ====================================================================================
 // BASE LAYER: QWERTY
 // ====================================================================================
@@ -133,10 +135,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │       │  VOL+ │  VOL- │       │  │       │       │       │       │       │
 // ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │  │       │       │       │       │       │
-// │       │  PREV │  PLAY │  NEXT │       │  │       │       │       │       │       │
+// │       │  PREV │  PLAY │  NEXT │       │  │       │ QUERTY│COLEMAK│       │       │
 // ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
 // │       │       │       │       │       │  │       │       │       │       │       │
-// │       │       │       │       │       │  │       │       │       │       │       │
+// │       │       │       │       │ RESET │  │       │       │       │       │       │
 // └───────┴───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┴───────┘
 //                 │       │       │       │  │       │       │       │
 //                 │       │       │       │  │       │       │       │
@@ -144,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_CONTROL] = LAYOUT_split_3x5_3(
     _______,_______,KC_VOLU,KC_VOLD,_______,   _______,_______,_______,_______,_______,
     _______,KC_MPRV,KC_MPLY,KC_MNXT,_______,   _______,QWERTY ,COLEMAK,_______,_______,
-    _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,RESET  ,   _______,_______,_______,_______,_______,
                     _______,_______,_______,   _______,_______,_______
     ),
 
