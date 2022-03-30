@@ -14,8 +14,8 @@ enum layers {
 #define THUM_L1 MO(_NAVIGATE)
 #define THUM_L2 MO(_NUMBER)
 #define THUM_L3 MO(_NUMBER)
-#define THUM_R1 KC_SPC
-#define THUM_R2 MT(MOD_LSFT, KC_BSPC)
+#define THUM_R1 MT(MOD_LSFT, KC_BSPC)
+#define THUM_R2 KC_SPC
 #define THUM_R3 LT(_FUNCTION, KC_BSPC)
 
 #define CTRL_C LCTL(KC_C)
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC ,KC_DEL ,KC_PGUP,KC_PGDN,KC_HOME,   _______,_______,KC_INS ,_______,_______,
     KC_ENT ,KC_LGUI,KC_LALT,KC_LCTL,KC_BSPC,   KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_TAB ,
     CTRL_Z ,CTRL_X ,CTRL_C ,CTRL_V ,KC_END ,   KC_HOME,KC_PGDN,KC_PGUP,KC_END ,CTRL_F ,
-                    _______,_______,_______,   K_F_SPC,_______,_______
+                    _______,_______,_______,   _______,K_F_SPC,_______
     ),
 
 // ====================================================================================
@@ -80,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │   ~   │   9   │   8   │   7   │       │  │   "   │   (   │   )   │   \   │   |   │
 // ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
 // │   )   │   #   │   @   │   !   │       │  │       │       │       │       │       │
-// │   0   │   3   │   2   │   1   │       │  │   '   │   {   │   }   │   -   │   _   │
+// │   0   │   3   │   2   │   1   │   -   │  │   '   │   {   │   }   │   -   │   _   │
 // ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
 // │       │   ^   │   %   │   $   │       │  │       │       │       │       │       │
 // │   `   │   6   │   5   │   4   │       │  │   `   │   [   │   ]   │   =   │   +   │
@@ -89,9 +89,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                 │       │       │       │  │       │       │       │
 //                 └───────┴───────┴───────┘  └───────┴───────┴───────┘
     [_NUMBER] = LAYOUT_split_3x5_3(
-    KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,   KC_DQUO,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,
-    KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,   KC_QUOT,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,
-    KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,   KC_GRV ,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,
+    KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,   KC_GRV ,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,
+    KC_0   ,KC_3   ,KC_2   ,KC_1   ,KC_MINS,   KC_DQUO,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,
+    KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,   KC_QUOT,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,
                     _______,_______,_______,   _______,_______,_______
     ),
 
