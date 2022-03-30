@@ -3,9 +3,11 @@
 
 enum layers {
     _QWERTY,
+    _COLEMAK_DH,
     _NAVIGATE,
     _NUMBER,
     _FUNCTION,
+    _RGB,
     _BLANK,
 };
 
@@ -16,7 +18,7 @@ enum layers {
 #define THUM_L3 MO(_NUMBER)
 #define THUM_R1 MT(MOD_LSFT, KC_BSPC)
 #define THUM_R2 KC_SPC
-#define THUM_R3 LT(_FUNCTION, KC_BSPC)
+#define THUM_R3 MO(_RGB)
 
 #define CTRL_C LCTL(KC_C)
 #define CTRL_F LCTL(KC_F)
@@ -45,6 +47,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T   ,   KC_Y   ,KC_U   ,KC_I   ,   KC_O,KC_P   ,
     KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,   KC_H   ,KC_J   ,KC_K   ,   KC_L,KC_SCLN,
     KC_Z   ,KC_X   ,KC_C   ,KC_V   ,KC_B   ,   KC_N   ,KC_M   ,KC_COMM, KC_DOT,KC_SLSH,
+                    THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3
+    ),
+
+// ====================================================================================
+// ALTERNATE BASE LAYER: COLEMAK DH
+// ====================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┐  ┌───────┬───────┬───────┬───────┬───────┐
+// │   Q   │   W   │   F   │   P   │   B   │  │   J   │   L   │   U   │   Y   │   :   │
+// │       │       │       │       │       │  │       │       │       │       │   ;   │
+// ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
+// │   A   │   R   │   S   │   T   │   G   │  │   M   │   N   │   E   │   I   │   O   │
+// │       │       │       │       │       │  │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
+// │   Z   │   X   │   C   │   D   │   V   │  │   K   │   H   │   <   │   >   │   ?   │
+// │       │       │       │       │       │  │       │       │   ,   │   .   │   /   │
+// └───────┴───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┴───────┘
+//                 │       │       │       │  │       │       │       │
+//                 │       │       │       │  │       │       │       │
+//                 └───────┴───────┴───────┘  └───────┴───────┴───────┘
+    [_COLEMAK_DH] = LAYOUT_split_3x5_3(
+    KC_Q   ,KC_W   ,KC_F   ,KC_P   ,KC_B   ,   KC_J   ,KC_L   ,KC_U   ,KC_Y   ,KC_SCLN,
+    KC_A   ,KC_R   ,KC_S   ,KC_T   ,KC_G   ,   KC_M   ,KC_N   ,KC_E   ,KC_I   ,KC_O   ,
+    KC_Z   ,KC_X   ,KC_C   ,KC_D   ,KC_V   ,   KC_K   ,KC_H   ,KC_COMM, KC_DOT,KC_SLSH,
                     THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3
     ),
 
@@ -115,6 +140,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F11 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,  _______,_______,KC_SLCK,KC_CLCK,KC_NLCK,
     KC_F10 ,KC_F3  ,KC_F2  ,KC_F1  ,KC_PSCR,  _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,
     KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,_______,  _______,_______,_______,_______,_______,
+                    _______,_______,_______,  _______,_______,_______
+    ),
+
+// ====================================================================================
+// RGB
+// ====================================================================================
+// ┌───────┬───────┬───────┬───────┬───────┐  ┌───────┬───────┬───────┬───────┬───────┐
+// │       │       │       │       │       │  │       │       │       │       │       │
+// │       │ RGB 9 │ RGB 8 │ RGB 7 │       │  │       │       │       │       │       │
+// ├───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │  │       │       │       │       │       │
+// │ ON/OFF│ RGB 3 │ RGB 2 │ RGB 1 │       │  │  HUE+ │  BRI+ │  SAT+ │  SPD+ │ MODE+ │
+// ├───────┼───────┼───────┼───────┼───────┤  ├───────┬───────┼───────┼───────┼───────┤
+// │       │       │       │       │       │  │       │       │       │       │       │
+// │       │ RGB 6 │ RGB 5 │ RGB 4 │       │  │  HUE- │  BRI- │  SAT- │  SPD- │ MODE- │
+// └───────┴───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┘
+//                 │       │       │       │  │       │       │       │
+//                 │       │       │       │  │       │       │       │
+//                 └───────└───────┴───────┘  └───────┴───────┴───────┘
+    [_RGB] = LAYOUT_split_3x5_3(
+    _______,RGB_M_T,RGB_M_G,RGB_M_X,_______,  _______,_______,_______,_______,_______,
+    RGB_TOG,RGB_M_R,RGB_M_B,RGB_M_P,_______,  RGB_HUI,RGB_VAI,RGB_SAI,RGB_SPI,RGB_MOD,
+    _______,RGB_M_K,RGB_M_SN,RGB_M_SW,_______,RGB_HUD,RGB_VAD,RGB_SAD,RGB_SPD,RGB_RMOD,
                     _______,_______,_______,  _______,_______,_______
     ),
 
