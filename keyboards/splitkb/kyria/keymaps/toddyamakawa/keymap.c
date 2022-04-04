@@ -69,6 +69,8 @@
 #define MO_LOL2 MO(_LOL2)
 #define TO_QWER TO(_QWERTY)
 
+#define Q_MEDIA LT(_MEDIA, KC_Q)
+
 // Default
 #define QWERTY   DF(_QWERTY)
 #define COLEMAK  DF(_COLEMAK_DH)
@@ -85,7 +87,8 @@ enum layers {
     _NAVIGATE,
     _RIGHT,
     _LOL,
-    _RGB
+    _RGB,
+    _MEDIA,
 };
 
 
@@ -117,11 +120,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // BASE LAYER: QWERTY
 // ====================================================================================================================================
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
-	// │       │   Q   │   W   │   E   │   R   │   T   │                                  │   Y   │   U   │   I   │   O   │   P   │       │
+// │       │   Q   │   W   │   E   │   R   │   T   │                                  │   Y   │   U   │   I   │   O   │   P   │       │
 // │  TAB  │       │       │       │       │       │                                  │       │       │       │       │       │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │   "   │
-// │  LOL  │       │       │       │       │       │                                  │       │       │       │       │   ;   │   '   │
+// │       │   A   │   S   │   D   │   F   │   G   │                                  │   H   │   J   │   K   │   L   │   :   │       │
+// │  LOL  │       │       │       │       │       │                                  │       │       │       │       │   ;   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   Z   │   X   │   C   │   V   │   B   │ SHIFT │  CTRL │  │ NUMBER│ NUMBER│   N   │   M   │   <   │   >   │   ?   │       │
 // │ SHIFT │       │       │       │       │       │       │       │  │       │  END  │       │       │   ,   │   .   │   /   │  LOCK │
@@ -135,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  PINK_L2,_______________QWERTY_L2_______________,                                   _______________QWERTY_R2_______________,KC_QUOT,
 //  PINK_L3,_______________QWERTY_L3_______________,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,_______________QWERTY_R3_______________,KC_MINS,
     PINK_L1,KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T   ,                                   KC_Y   ,KC_U   ,KC_I   ,KC_O   ,KC_P   ,PINK_R1,
-    PINK_L2,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,                                   KC_H   ,KC_J   ,KC_K   ,KC_L   ,KC_SCLN,PINK_R2,
+    PINK_L2,KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G   ,                                   KC_H   ,KC_J   ,KC_K   ,KC_L   ,KC_SCLN,_______,
     PINK_L3,KC_Z   ,KC_X   ,KC_C   ,KC_V   ,KC_B   ,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,KC_N   ,KC_M   ,KC_COMM, KC_DOT,KC_SLSH,PINK_R3,
                             COLEMAK,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
@@ -147,8 +150,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // │       │   Q   │   W   │   F   │   P   │   B   │                                  │   J   │   L   │   U   │   Y   │   :   │       │
 // │  TAB  │       │       │       │       │       │                                  │       │       │       │       │   ;   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
-// │       │   A   │   R   │   S   │   T   │   G   │                                  │   M   │   N   │   E   │   I   │   O   │   "   │
-// │  LOL  │       │       │       │       │       │                                  │       │       │       │       │       │   '   │
+// │       │   A   │   R   │   S   │   T   │   G   │                                  │   M   │   N   │   E   │   I   │   O   │       │
+// │  LOL  │       │       │       │       │       │                                  │       │       │       │       │       │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   Z   │   X   │   C   │   D   │   V   │ SHIFT │  CTRL │  │ NUMBER│ NUMBER│   K   │   H   │   <   │   >   │   ?   │       │
 // │ SHIFT │       │       │       │       │       │       │       │  │       │  END  │       │       │   ,   │   .   │   /   │  LOCK │
@@ -158,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_COLEMAK_DH] = LAYOUT(
     PINK_L1,KC_Q   ,KC_W   ,KC_F   ,KC_P   ,KC_B   ,                                   KC_J   ,KC_L   ,KC_U   ,KC_Y   ,KC_SCLN, PINK_R1,
-    PINK_L2,KC_A   ,KC_R   ,KC_S   ,KC_T   ,KC_G   ,                                   KC_M   ,KC_N   ,KC_E   ,KC_I   ,KC_O   , PINK_R2,
+    PINK_L2,KC_A   ,KC_R   ,KC_S   ,KC_T   ,KC_G   ,                                   KC_M   ,KC_N   ,KC_E   ,KC_I   ,KC_O   , _______,
     PINK_L3,KC_Z   ,KC_X   ,KC_C   ,KC_D   ,KC_V   ,THUM_L7,THUM_L6,   THUM_R6,THUM_R7,KC_K   ,KC_H   ,KC_COMM, KC_DOT,KC_SLSH, PINK_R3,
                             QWERTY ,THUM_L4,THUM_L3,THUM_L2,THUM_L1,   THUM_R1,THUM_R2,THUM_R3,THUM_R4,THUM_R5
     ),
@@ -169,21 +172,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Left-handed number pad.
 // ┌───────┬───────┬───────┬───────┬───────┬───────┐                                  ┌───────┬───────┬───────┬───────┬───────┬───────┐
 // │       │       │   (   │   *   │   &   │       │                                  │       │       │       │       │       │       │
-// │       │   ~   │   9   │   8   │   7   │       │                                  │       │   (   │   )   │   \   │   |   │       │
+// │       │   ~   │   9   │   8   │   7   │       │                                  │   `   │   (   │   )   │   \   │   |   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┤                                  ├───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │   )   │   #   │   @   │   !   │       │                                  │       │       │       │       │       │       │
-// │       │   0   │   3   │   2   │   1   │       │                                  │       │   {   │   }   │   -   │   _   │       │
+// │       │   0   │   3   │   2   │   1   │   -   │                                  │   "   │   {   │   }   │   -   │   _   │       │
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┬───────┐  ┌───────┬───────┼───────┼───────┼───────┼───────┼───────┼───────┤
 // │       │       │   ^   │   %   │   $   │       │       │       │  │       │       │       │       │       │       │       │       │
-// │       │   `   │   6   │   5   │   4   │       │       │       │  │       │       │       │   [   │   ]   │   =   │   +   │       │
+// │       │   `   │   6   │   5   │   4   │       │       │       │  │       │       │   '   │   [   │   ]   │   =   │   +   │       │
 // └───────┴───────┴───────┼───────┼───────┼───────┼───────┼───────┤  ├───────┼───────┼───────┼───────┼───────┼───────┴───────┴───────┘
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         │       │       │       │       │       │  │       │       │       │       │       │
 //                         └───────┴───────┴───────┴───────┴───────┘  └───────┴───────┴───────┴───────┴───────┘
     [_NUMBER] = LAYOUT(
-    _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   _______,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,_______,
-    _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,_______,                                   _______,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,_______,
-    _______,KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,_______,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,_______,
+    _______,KC_TILD,KC_9   ,KC_8   ,KC_7   ,_______,                                   KC_GRV ,KC_LPRN,KC_RPRN,KC_BSLS,KC_PIPE,_______,
+    _______,KC_0   ,KC_3   ,KC_2   ,KC_1   ,KC_MINS,                                   KC_DQUO,KC_LCBR,KC_RCBR,KC_MINS,KC_UNDS,_______,
+    _______,KC_GRV ,KC_6   ,KC_5   ,KC_4   ,_______,_______,_______,   _______,_______,KC_QUOT,KC_LBRC,KC_RBRC,KC_EQL ,KC_PLUS,_______,
                             _______,_______,_______,_______,_______,   _______,_______,MO_RIGT,_______,_______
     ),
 
@@ -206,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_FUNCTION] = LAYOUT(
     _______,KC_F11 ,KC_F9  ,KC_F8  ,KC_F7  ,_______,                                   _______,_______,KC_SLCK,KC_CLCK,KC_NLCK,_______,
     _______,KC_F10 ,KC_F3  ,KC_F2  ,KC_F1  ,KC_PSCR,                                   _______,KC_LCTL,KC_LALT,KC_LGUI,KC_LSFT,_______,
-    _______,KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+    _______,KC_F12 ,KC_F6  ,KC_F5  ,KC_F4  ,_______,_______,_______,   _______,_______,_______,KC_MPRV,KC_MPLY,KC_MNXT,_______,_______,
                             _______,_______,KC_LGUI,KC_LALT,KC_LCTL,   _______,KC_LCTL,KC_LALT,_______,_______
     ),
 
@@ -310,6 +313,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,RGB_M_K,RGB_M_SN,RGB_M_SW,_______,_______,_______, _______,_______,RGB_HUD,RGB_VAD,RGB_SAD,RGB_SPD,RGB_RMOD,_______,
                             _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
     ),
+
+    [_MEDIA] = LAYOUT(
+    _______,_______,KC_MPRV,KC_MPLY,KC_MNXT,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,_______,                                   _______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,_______,_______,_______,   _______,_______,_______,_______,_______,_______,_______,_______,
+                            _______,_______,_______,_______,_______,   _______,_______,_______,_______,_______
+    ),
+
 };
 
 #ifdef OLED_ENABLE
@@ -354,6 +365,9 @@ bool oled_task_user(void) {
                 break;
             case _RGB:
                 oled_write_P(PSTR("RGB"), false);
+                break;
+            case _MEDIA:
+                oled_write_P(PSTR("MEDIA"), false);
                 break;
             default:
                 oled_write_P(PSTR("Undefined\n"), false);
